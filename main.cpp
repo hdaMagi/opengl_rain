@@ -49,11 +49,11 @@ void myIdle(void)
 	for (std::vector<Waterdrop>::iterator it = waterdrops.begin(); it != waterdrops.end(); ++it)
 	{
 		Waterdrop & drop = *it;
-		drop.xpos -= drop.xmov;
-		if (drop.xpos < 0.0f) {
-			drop.xpos = WINDOW_WIDTH;
+		drop.xpos -= ((drop.xmov + drop.Deceleration) * drop.Direction());
+		if ((drop.xpos < 0.0f) || (drop.xpos > WINDOW_WIDTH)) {
+			drop.xpos = WINDOW_WIDTH / 2;
 		}
-		drop.ypos -= drop.ymov;
+		drop.ypos -= (drop.ymov + drop.Deceleration);
 		if (drop.ypos < 0.0f) {
 			drop.ypos = WINDOW_HEIGHT;
 		}

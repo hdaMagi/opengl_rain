@@ -11,6 +11,8 @@
 #include <GL/glut.h>	// OpenGL und GLUT
 
 class Waterdrop {
+private:
+	int direction;
 public:
 	Waterdrop();
 	virtual ~Waterdrop();
@@ -18,10 +20,10 @@ public:
 	GLfloat xmov, ymov;			// Moves
 	GLfloat radius;				// Radius in Pixel
 	GLfloat red, green, blue;	// Color
-	GLfloat Direction;			// The angle of rotation
 	GLfloat Acceleration;		// How fast it accelerates
 	GLfloat Deceleration;		// How fast it decelerates downwards
 	GLfloat Scalez;				// How much we wish to scale it
+	int Direction();			// The angle of rotation
 };
 
 #endif /* WATERDROP_H_ */
