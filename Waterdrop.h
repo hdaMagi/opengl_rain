@@ -21,14 +21,18 @@ private:
 	GLfloat Acceleration;		// How fast it accelerates
 	GLfloat Deceleration;		// How fast it decelerates downwards
 	GLfloat Scalez;				// How much we wish to scale it
+	std::vector<Waterdrop*>  inactivatedDueToJoined;
+
 public:
 	Waterdrop();
 	virtual ~Waterdrop();
 
-	std::vector<Waterdrop*>  inactivatedDueToJoined;
 	int Direction();			// The angle of rotation
+	bool updatePosition();
 	void reset();
 	void addJoinedDrop(Waterdrop* drop);
+	bool detectCollision(Waterdrop *drop2);
+	void joinDrops(Waterdrop* drop2);
 
 	GLfloat getAcceleration() const {
 		return Acceleration;
