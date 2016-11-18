@@ -8,22 +8,23 @@
 #ifndef WATERDROP_H_
 #define WATERDROP_H_
 
-#include <GL/glut.h>	// OpenGL und GLUT
+#include <GL/glut.h>
 #include <vector>
 class Waterdrop {
 private:
 	int direction;
-public:
-	Waterdrop();
-	virtual ~Waterdrop();
 	bool isActive;
 	GLfloat xpos, ypos;			// Positions
-	GLfloat xmov, ymov;			// Moves
+	GLfloat xSpeed, ySpeed;			// Moves
 	GLfloat radius;				// Radius in Pixel
 	GLfloat red, green, blue;	// Color
 	GLfloat Acceleration;		// How fast it accelerates
 	GLfloat Deceleration;		// How fast it decelerates downwards
 	GLfloat Scalez;				// How much we wish to scale it
+public:
+	Waterdrop();
+	virtual ~Waterdrop();
+
 	std::vector<Waterdrop*>  inactivatedDueToJoined;
 	int Direction();			// The angle of rotation
 	void reset();
@@ -93,12 +94,12 @@ public:
 		Scalez = scalez;
 	}
 
-	GLfloat getXmov() const {
-		return xmov;
+	GLfloat getXSpeed() const {
+		return xSpeed;
 	}
 
-	void setXmov(GLfloat xmov) {
-		this->xmov = xmov;
+	void setXSpeed(GLfloat xmov) {
+		this->xSpeed = xSpeed;
 	}
 
 	GLfloat getXpos() const {
@@ -109,12 +110,12 @@ public:
 		this->xpos = xpos;
 	}
 
-	GLfloat getYmov() const {
-		return ymov;
+	GLfloat getYSpeed() const {
+		return ySpeed;
 	}
 
-	void setYmov(GLfloat ymov) {
-		this->ymov = ymov;
+	void setYSpeed(GLfloat ymov) {
+		this->ySpeed = ySpeed;
 	}
 
 	GLfloat getYpos() const {

@@ -1,20 +1,13 @@
-#include <GL/glut.h>	// OpenGL und GLUT
-#include <iostream>	// für cout und cin
-#include <math.h>		// für SIN, COS
-#include <stdio.h>		//für sprintf
+#include <GL/glut.h>
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
 #include <vector>
 #include <sys/time.h>
+
 #include "Globals.h"
 #include "Waterdrop.h"
 
-#define pi 3.14159265358979323846
-#define PI 3.14159265358979323846
-
-//************************************************************
-
-//********VARIABLEN
-GLfloat t = 0; 				// Winkel
-GLfloat r = 7;				//Radius Kreis, 7 pixel
 std::vector<Waterdrop> waterdrops;
 
 float clamp(float value, float min, float max) {
@@ -23,9 +16,9 @@ float clamp(float value, float min, float max) {
 
 bool detectCollision(Waterdrop* drop1, Waterdrop *drop2) {
 	float dst = sqrt(
-			pow((drop2->xpos - drop1->xpos), 2)
-					+ pow((drop2->ypos - drop1->ypos), 2));
-	float dst2 = dst - drop1->radius - drop2->radius;
+			pow((drop2->getXpos() - drop1->getXpos()), 2)
+					+ pow((drop2->getYpos() - drop1->getYpos()), 2));
+	float dst2 = dst - drop1->getRadius() - drop2->getRadius();
 
 //	printf(
 //			"D1X: %02f, \t D1Y: %02f, \t D2X: %02f, \t D2Y: %02f\n",
@@ -39,30 +32,42 @@ bool detectCollision(Waterdrop* drop1, Waterdrop *drop2) {
 
 void joinDrops(Waterdrop* drop1, Waterdrop* drop2) {
 //	printf("JOINING");
-	float flDrop1 = sqrt(((pow(drop1->radius, 2) * PI) + (pow(drop2->radius, 2) * PI)) / PI);
 
-	drop1->setRadius(sqrt(((pow(drop1->radius, 2) * PI) + (pow(drop2->radius, 2) * PI)) / PI));
+	drop1->setRadius(sqrt(((pow(drop1->getRadius(), 2) * PI) + (pow(drop2->getRadius(), 2) * PI)) / PI));
 	drop1->addJoinedDrop(drop2);
 	drop2->setIsActive(false);
-	drop2->setXpos(-200); // hiding joined drops
+	drop2->setXpos(-200); // hiding "looser" joined drops
 
 }
 
-//*********************Kreis****************************
-void drawCircle(GLfloat xcoord, GLfloat ycoord, GLfloat radius) // Koordinaten x,y, radius und gefüllt mit Farbe
+void drawCircle(GLfloat xcoord, GLfloat ycoord, GLfloat radius)
 		{
-	GLfloat angle = 0; //Winkel
-	// Kreis zeichnen
-	glBegin(GL_POLYGON);  // gefüllt
-	for (angle = 0; angle < 2 * pi; angle += 0.1f) { //Winkel vergrößern
-		glVertex2i(xcoord + radius * cos(angle), ycoord + radius * sin(angle)); //berechne alle Kreispunkte
+	GLfloat angle = 0;
+	glBegin(GL_POLYGON);
+	for (angle = 0; angle < 2 * PI; angle += 0.1f) {
+		glVertex2i(xcoord + radius * cos(angle), ycoord + radius * sin(angle));
 	}
 	glEnd();
 }
 
-//************************ myInit ************************
-void myInit(void) {
-	glClearColor(0.0, 0.0, 0.0, 0.0);   // set background color
+
+/*
+ * Actual idea: instead of drawing perfect circles we draw ellipsoids
+ * with speed parameter as added to y parameter.
+ * sin / cos ?
+ */
+void drawDrop(GLfloat xcoord, GLfloat ycoord, GLfloat radius, GLfloat xSpeed, GLfloat ySpeed)
+		{
+	GLfloat angle = 0;
+	glBegin(GL_POLYGON);
+	for (angle = 0; angle < 2 * PI; angle += 0.1f) {
+		glVertex2i(xcoord + radius * cos(angle) * xSpeed * 20, ycoord + radius * sin(angle) * ySpeed * 20);
+	}
+	glEnd();
+}
+
+void init(void) {
+	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glPointSize(4.0);					// Punktgröße in Pixel
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();					// lade Einheitsmatrix
@@ -70,18 +75,21 @@ void myInit(void) {
 
 }
 
-//************************ myIdle ************************
-void myIdle(void) {
+void idle(void) {
 	for (std::vector<Waterdrop>::iterator it = waterdrops.begin();
 			it != waterdrops.end(); ++it) {
 		Waterdrop & drop = *it;
-		if (drop.isActive == true) {
-			drop.xpos -= ((drop.xmov + drop.Deceleration) * drop.Direction());
-			if ((drop.xpos + (drop.radius) < 0.0f) || (drop.xpos - (drop.radius) > WINDOW_WIDTH)) {
+		if (drop.isIsActive() == true) {
+			GLfloat newXpos = drop.getXpos() - ((drop.getXSpeed() + drop.getDeceleration()) * drop.Direction());
+
+			drop.setXpos(newXpos);
+
+			if ((drop.getXpos() + (drop.getRadius()) < 0.0f) || (drop.getXpos() - (drop.getRadius()) > WINDOW_WIDTH)) {
 				drop.reset();
 			}
-			drop.ypos -= (drop.ymov + drop.Deceleration);
-			if (drop.ypos + (drop.radius)  < 0.0f) {
+
+			drop.setYpos(drop.getYpos() - (drop.getYSpeed() + drop.getDeceleration()));
+			if (drop.getYpos() + (drop.getRadius())  < 0.0f) {
 				drop.reset();
 			}
 
@@ -91,7 +99,7 @@ void myIdle(void) {
 //				printf("%i <--> %i - ", it,  it2);
 					Waterdrop & drop1 = *it;
 					Waterdrop & drop2 = *it2;
-					if (drop1.isActive == true && drop2.isActive == true) {
+					if (drop1.isIsActive()== true && drop2.isIsActive() == true) {
 						bool x = detectCollision(&drop1, &drop2);
 						if (x == true) {
 							joinDrops(&drop1, &drop2);
@@ -102,44 +110,42 @@ void myIdle(void) {
 		}
 	}
 
-	glutPostRedisplay(); // neuzeichenen wenn noch rotiert wird
+	glutPostRedisplay();
 }
 
-//*********************** myDisplay **********************
-void myDisplay(void) {
-	glClear(GL_COLOR_BUFFER_BIT);	// Bildschirm leeren
+void display(void) {
+	glClear(GL_COLOR_BUFFER_BIT);
 	int size = waterdrops.size();
 	for (int idx = 0; idx < size; idx++) {
 		Waterdrop drop = waterdrops[idx];
-		glColor3f(drop.red, drop.green, drop.blue);	//blau
-		drawCircle(drop.xpos, drop.ypos, drop.radius);
+		glColor3f(drop.getRed(), drop.getGreen(), drop.getBlue());
+		drawDrop(drop.getXpos(), drop.getYpos(), drop.getRadius(), drop.getXSpeed(), drop.getYSpeed());
 	}
 
-	glutSwapBuffers();	// wegen Double-Buffering
-	glFlush();			// send all output to display
+	glutSwapBuffers();
+	glFlush();
 }
 
-//************************* main *************************
 int main(int argc, char** argv) {
 	timeval t1;
 	gettimeofday(&t1, NULL);
 	srand(t1.tv_usec * t1.tv_sec);
 	// GLUT
-	glutInit(&argc, argv);								// initialize glut
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);		// setze display mode
-	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);	// Fenstergrösse
-	glutInitWindowPosition(100, 100);		// Fensterposoiton auf Bildschirm
-	glutCreateWindow("Raining");						// Fenster generieren
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+	glutInitWindowPosition(100, 100);
+	glutCreateWindow("Raining");
 	for (int idx = 0; idx < 75; idx++) {
 		Waterdrop drop;
 		waterdrops.push_back(drop);
 	}
-	glutDisplayFunc(myDisplay);							// Redraw-Funktion
+	glutDisplayFunc(display);
 
-	myInit();										// persönliche Einstellungen
+	init();
 
-	glutIdleFunc(myIdle);							// ANIMATION
+	glutIdleFunc(idle);
 
-	glutMainLoop(); 								// Loop
+	glutMainLoop();
 	return 0;
 }
