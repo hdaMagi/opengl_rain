@@ -11,4 +11,9 @@
 #define WINDOW_POSITION_Y 100
 
 
+	struct point2d {
+		GLfloat xcoord;
+		GLfloat ycoord;
+	};
+
 #endif /* GLOBALS_H_ */

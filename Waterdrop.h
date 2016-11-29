@@ -10,6 +10,7 @@
 
 #include <GL/glut.h>
 #include <vector>
+#include "Globals.h"
 class Waterdrop {
 private:
 	int direction;
@@ -22,6 +23,9 @@ private:
 	GLfloat Deceleration;		// How fast it decelerates downwards
 	GLfloat Scalez;				// How much we wish to scale it
 	std::vector<Waterdrop*>  inactivatedDueToJoined;
+
+
+	std::vector<point2d> freeShape; // = new std::vector();
 
 public:
 	Waterdrop();
@@ -136,6 +140,14 @@ public:
 
 	void setIsActive(bool isActive) {
 		this->isActive = isActive;
+	}
+
+	const std::vector<point2d>& getFreeShape() const {
+		return freeShape;
+	}
+
+	void setFreeShape(const std::vector<point2d>& freeShape) {
+		this->freeShape = freeShape;
 	}
 };
 

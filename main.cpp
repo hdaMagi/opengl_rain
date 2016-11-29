@@ -11,10 +11,22 @@
 
 Waterdrops drops;
 
+
 float clamp(float value, float min, float max) {
 	return std::max(min, std::min(max, value));
 }
 
+void drawFreeShape(Waterdrop drop) {
+
+	glBegin(GL_POLYGON);
+	std::vector<point2d> shape = drop.getFreeShape();
+	for (int i = 0; i < shape.size(); i++) {
+		point2d point = shape.at(i);
+		glVertex2i(point.xcoord, point.ycoord);
+	}
+
+	glEnd();
+}
 
 void drawCircle(GLfloat xcoord, GLfloat ycoord, GLfloat radius) {
 	GLfloat angle = 0;
@@ -63,10 +75,8 @@ void display(void) {
 	for (int idx = 0; idx < size; idx++) {
 		Waterdrop drop = waterdrops[idx];
 		glColor3f(drop.getRed(), drop.getGreen(), drop.getBlue());
-		drawDrop(drop.getXpos(), drop.getYpos(), drop.getRadius(),
-				drop.getXSpeed(), drop.getYSpeed());
+		drawFreeShape(drop);
 	}
-
 	glutSwapBuffers();
 	glFlush();
 }

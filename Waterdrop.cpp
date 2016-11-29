@@ -26,6 +26,7 @@ Waterdrop::Waterdrop() {
 	this->Deceleration = Random::randGlfloat(0.6f, 0.0f);
 	this->Scalez = 0.0f;
 	this->direction = 0; // gerade runter fließen
+
 }
 
 void Waterdrop::reset() {
@@ -49,7 +50,7 @@ void Waterdrop::reset() {
 		drop.reset();
 	}
 	this->inactivatedDueToJoined.clear();
-
+freeShape.clear();
 }
 
 /**
@@ -62,6 +63,7 @@ void Waterdrop::joinDrops(Waterdrop* drop2) {
 	radius = sqrt(((pow(radius, 2) * PI) + (pow(radius, 2) * PI)) / PI);
 	drop2->setIsActive(false);
 	drop2->setXpos(-200); // hiding "looser" joined drops
+	this->inactivatedDueToJoined.push_back(drop2);
 
 }
 
@@ -86,19 +88,33 @@ bool Waterdrop::detectCollision(Waterdrop *drop2) {
  * return: 1 if update was succsessful
  * 		   0 if not (e.g. running out of canvas)
  */
+int i = 0;
 bool Waterdrop::updatePosition() {
+
 	xpos = xpos - (xSpeed + Deceleration) * Direction();
 	if (xpos + radius < 0.0f || (xpos - radius > WINDOW_WIDTH)) {
-//		reset();
+		reset();
 		return 0;
 	}
 
 	ypos = ypos - (ySpeed + Deceleration);
 	if (ypos + radius < 0.0f) {
-//		reset();
+		reset();
 		return 0;
 	}
-return 1;
+
+	if(i == 10) {
+		freeShape.clear();
+		i = 0;
+	}
+	i++;
+	for (GLfloat angle = 0; angle < 2 * PI; angle += 0.1f) {
+		point2d x;
+		x.xcoord = xpos + radius * cos(angle);
+		x.ycoord = ypos + radius * sin(angle);
+		freeShape.push_back(x);
+	}
+	return 1;
 }
 
 /**
