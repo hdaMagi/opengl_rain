@@ -11,14 +11,13 @@
 
 Waterdrops drops;
 
-
 float clamp(float value, float min, float max) {
 	return std::max(min, std::min(max, value));
 }
 
 void drawFreeShape(Waterdrop drop) {
-
-	glBegin(GL_POLYGON);
+	  glPolygonMode( GL_FRONT, GL_LINE );
+	glBegin(GL_TRIANGLE_STRIP);
 	std::vector<point2d> shape = drop.getFreeShape();
 	for (int i = 0; i < shape.size(); i++) {
 		point2d point = shape.at(i);
@@ -71,8 +70,7 @@ void display(void) {
 	glClear(GL_COLOR_BUFFER_BIT);
 	/* ugly but working for the moment */
 	std::vector<Waterdrop> waterdrops = drops.getWaterdrops();
-	int size = waterdrops.size();
-	for (int idx = 0; idx < size; idx++) {
+	for (int idx = 0; idx < waterdrops.size(); idx++) {
 		Waterdrop drop = waterdrops[idx];
 		glColor3f(drop.getRed(), drop.getGreen(), drop.getBlue());
 		drawFreeShape(drop);

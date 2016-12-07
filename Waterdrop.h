@@ -10,6 +10,7 @@
 
 #include <GL/glut.h>
 #include <vector>
+#include <queue>
 #include "Globals.h"
 class Waterdrop {
 private:
@@ -23,9 +24,10 @@ private:
 	GLfloat Deceleration;		// How fast it decelerates downwards
 	GLfloat Scalez;				// How much we wish to scale it
 	std::vector<Waterdrop*>  inactivatedDueToJoined;
-
-
-	std::vector<point2d> freeShape; // = new std::vector();
+	int slidingDelay;
+	int iterations;
+	std::queue<std::vector<point2d> > DropTrace;
+	std::vector<point2d> freeShape;
 
 public:
 	Waterdrop();

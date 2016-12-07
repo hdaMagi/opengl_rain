@@ -11,7 +11,7 @@
 
 Waterdrops::Waterdrops() {
 	// TODO Auto-generated constructor stub
-	for (int idx = 0; idx < 75; idx++) {
+	for (int idx = 0; idx < 5; idx++) {
 		Waterdrop drop;
 		waterdrops.push_back(drop);
 	}
