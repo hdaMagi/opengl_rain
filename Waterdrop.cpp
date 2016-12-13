@@ -11,9 +11,14 @@
 #include "Globals.h"
 #include "Random.h"
 
+GLfloat getRadiusFromMass(GLfloat mass) {
+	return powf(mass / (PI * (2/3)), 1/3) + 3.5;
+}
+
 Waterdrop::Waterdrop() {
 	this->isActive = true;
-	this->radius = Random::randGlfloat(7.0f, 5.0f);
+	this->mass = Random::randGlfloat(4.2, 0.1);
+	this->radius = getRadiusFromMass(this->mass);
 	this->xpos = Random::randGlfloat(WINDOW_WIDTH - this->radius, this->radius);
 	this->ypos = Random::randGlfloat(WINDOW_HEIGHT - this->radius,
 			this->radius);
@@ -25,13 +30,13 @@ Waterdrop::Waterdrop() {
 	this->Acceleration = 0.0f;
 	this->Deceleration = Random::randGlfloat(0.6f, 0.0f);
 	this->Scalez = 0.0f;
-	this->direction = 0; // gerade runter fließen
-
+	this->direction = 0; // gerade runter fliessen
 }
 
 void Waterdrop::reset() {
 	this->isActive = true;
-	this->radius = Random::randGlfloat(7.0f, 5.0f);
+	this->mass = Random::randGlfloat(4.2, 0.1);
+	this->radius = getRadiusFromMass(this->mass);
 	this->xpos = Random::randGlfloat(WINDOW_WIDTH - this->radius, this->radius);
 	this->ypos = WINDOW_HEIGHT;
 	this->xSpeed = Random::randGlfloat(0.1, -0.1);
@@ -43,14 +48,7 @@ void Waterdrop::reset() {
 	this->Deceleration = Random::randGlfloat(0.6f, 0.0f);
 	this->Scalez = 0.0f;
 	this->direction = 0;
-	for (std::vector<Waterdrop*>::iterator it =
-			this->inactivatedDueToJoined.begin();
-			it != this->inactivatedDueToJoined.end(); ++it) {
-		Waterdrop & drop = **it;
-		drop.reset();
-	}
-	this->inactivatedDueToJoined.clear();
-freeShape.clear();
+	freeShape.clear();
 }
 
 /**
@@ -58,12 +56,9 @@ freeShape.clear();
  * drop2 is the looser
  */
 void Waterdrop::joinDrops(Waterdrop* drop2) {
-//	printf("JOINING");
-
-	radius = sqrt(((pow(radius, 2) * PI) + (pow(radius, 2) * PI)) / PI);
-	drop2->setIsActive(false);
-	drop2->setXpos(-200); // hiding "looser" joined drops
-	this->inactivatedDueToJoined.push_back(drop2);
+	this->mass += drop2->getMass();
+	this->radius = getRadiusFromMass(this->mass);
+	drop2->reset();
 
 }
 
@@ -100,7 +95,7 @@ bool Waterdrop::updatePosition() {
 	ypos = ypos - (ySpeed + Deceleration);
 	if (ypos + radius < 0.0f) {
 		reset();
-		return 0;
+		return false;
 	}
 
 	if(i == 10) {
@@ -114,7 +109,7 @@ bool Waterdrop::updatePosition() {
 		x.ycoord = ypos + radius * sin(angle);
 		freeShape.push_back(x);
 	}
-	return 1;
+	return true;
 }
 
 /**

@@ -16,12 +16,13 @@ private:
 	int direction;
 	bool isActive;
 	GLfloat xpos, ypos;			// Positions
-	GLfloat xSpeed, ySpeed;			// Moves
+	GLfloat xSpeed, ySpeed;		// Moves
 	GLfloat radius;				// Radius in Pixel
 	GLfloat red, green, blue;	// Color
 	GLfloat Acceleration;		// How fast it accelerates
 	GLfloat Deceleration;		// How fast it decelerates downwards
 	GLfloat Scalez;				// How much we wish to scale it
+	GLfloat mass;				//
 	std::vector<Waterdrop*>  inactivatedDueToJoined;
 
 
@@ -44,6 +45,10 @@ public:
 
 	void setAcceleration(GLfloat acceleration) {
 		Acceleration = acceleration;
+	}
+
+	GLfloat getMass() const {
+		return mass;
 	}
 
 	GLfloat getBlue() const {
@@ -148,6 +153,16 @@ public:
 
 	void setFreeShape(const std::vector<point2d>& freeShape) {
 		this->freeShape = freeShape;
+	}
+
+	void clearFreeShape() {
+		this->freeShape.clear();
+	}
+
+	void setColor(GLfloat red, GLfloat green, GLfloat blue) {
+		this->red = red;
+		this->green = green;
+		this->blue = blue;
 	}
 };
 

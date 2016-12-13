@@ -11,7 +11,6 @@
 
 Waterdrops drops;
 
-
 float clamp(float value, float min, float max) {
 	return std::max(min, std::min(max, value));
 }
@@ -54,7 +53,7 @@ void drawDrop(GLfloat xcoord, GLfloat ycoord, GLfloat radius, GLfloat xSpeed,
 }
 
 void init(void) {
-	glClearColor(0.0, 0.0, 0.0, 0.0);
+	glClearColor(0.5, 0.5, 0.5, 0.5);
 	glPointSize(4.0);					// Punktgröße in Pixel
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();					// lade Einheitsmatrix
@@ -82,6 +81,7 @@ void display(void) {
 }
 
 int main(int argc, char** argv) {
+	//programPath = argv[0];
 	timeval t1;
 	gettimeofday(&t1, NULL);
 	srand(t1.tv_usec * t1.tv_sec);

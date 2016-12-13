@@ -10,6 +10,8 @@
 
 #include <vector>
 #include "Waterdrop.h"
+#include "Physics.h"
+
 class Waterdrops {
 public:
 	Waterdrops();
@@ -26,7 +28,7 @@ public:
 
 private:
 	std::vector<Waterdrop> waterdrops;
-
+	Physics glassPanel;
 };
 
 #endif /* WATERDROPS_H_ */
