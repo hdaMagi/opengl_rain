@@ -12,22 +12,21 @@
 #include <vector>
 #include <queue>
 #include "Globals.h"
+#include "MassPoint.h"
+
 class Waterdrop {
 private:
-	int direction;
 	bool isActive;
-	GLfloat xpos, ypos;			// Positions
-	GLfloat xSpeed, ySpeed;			// Moves
-	GLfloat radius;				// Radius in Pixel
+//
+//	int direction;
+//	GLfloat xpos, ypos;			// Positions
+//	GLfloat xSpeed, ySpeed;			// Moves
+//	GLfloat radius;				// Radius in Pixel
 	GLfloat red, green, blue;	// Color
-	GLfloat Acceleration;		// How fast it accelerates
-	GLfloat Deceleration;		// How fast it decelerates downwards
-	GLfloat Scalez;				// How much we wish to scale it
+//	GLfloat Deceleration;		// How fast it decelerates downwards
 	std::vector<Waterdrop*>  inactivatedDueToJoined;
-	int slidingDelay;
-	int iterations;
-	std::queue<std::vector<point2d> > DropTrace;
 	std::vector<point2d> freeShape;
+	std::vector<MassPoint> vecMassPoints;
 
 public:
 	Waterdrop();
@@ -40,14 +39,6 @@ public:
 	bool detectCollision(Waterdrop *drop2);
 	void joinDrops(Waterdrop* drop2);
 
-	GLfloat getAcceleration() const {
-		return Acceleration;
-	}
-
-	void setAcceleration(GLfloat acceleration) {
-		Acceleration = acceleration;
-	}
-
 	GLfloat getBlue() const {
 		return blue;
 	}
@@ -56,22 +47,22 @@ public:
 		this->blue = blue;
 	}
 
-	GLfloat getDeceleration() const {
-		return Deceleration;
-	}
-
-	void setDeceleration(GLfloat deceleration) {
-		Deceleration = deceleration;
-	}
-
-	int getDirection() const {
-		return direction;
-	}
-
-	void setDirection(int direction) {
-		this->direction = direction;
-	}
-
+//	GLfloat getDeceleration() const {
+//		return Deceleration;
+//	}
+//
+//	void setDeceleration(GLfloat deceleration) {
+//		Deceleration = deceleration;
+//	}
+//
+//	int getDirection() const {
+//		return direction;
+//	}
+//
+//	void setDirection(int direction) {
+//		this->direction = direction;
+//	}
+//
 	GLfloat getGreen() const {
 		return green;
 	}
@@ -79,15 +70,15 @@ public:
 	void setGreen(GLfloat green) {
 		this->green = green;
 	}
-
-	GLfloat getRadius() const {
-		return radius;
-	}
-
-	void setRadius(GLfloat radius) {
-		this->radius = radius;
-	}
-
+//
+//	GLfloat getRadius() const {
+//		return radius;
+//	}
+//
+//	void setRadius(GLfloat radius) {
+//		this->radius = radius;
+//	}
+//
 	GLfloat getRed() const {
 		return red;
 	}
@@ -95,46 +86,38 @@ public:
 	void setRed(GLfloat red) {
 		this->red = red;
 	}
-
-	GLfloat getScalez() const {
-		return Scalez;
-	}
-
-	void setScalez(GLfloat scalez) {
-		Scalez = scalez;
-	}
-
-	GLfloat getXSpeed() const {
-		return xSpeed;
-	}
-
-	void setXSpeed(GLfloat xmov) {
-		this->xSpeed = xSpeed;
-	}
-
-	GLfloat getXpos() const {
-		return xpos;
-	}
-
-	void setXpos(GLfloat xpos) {
-		this->xpos = xpos;
-	}
-
-	GLfloat getYSpeed() const {
-		return ySpeed;
-	}
-
-	void setYSpeed(GLfloat ymov) {
-		this->ySpeed = ySpeed;
-	}
-
-	GLfloat getYpos() const {
-		return ypos;
-	}
-
-	void setYpos(GLfloat ypos) {
-		this->ypos = ypos;
-	}
+//
+//	GLfloat getXSpeed() const {
+//		return xSpeed;
+//	}
+//
+//	void setXSpeed(GLfloat xmov) {
+//		this->xSpeed = xSpeed;
+//	}
+//
+//	GLfloat getXpos() const {
+//		return xpos;
+//	}
+//
+//	void setXpos(GLfloat xpos) {
+//		this->xpos = xpos;
+//	}
+//
+//	GLfloat getYSpeed() const {
+//		return ySpeed;
+//	}
+//
+//	void setYSpeed(GLfloat ymov) {
+//		this->ySpeed = ySpeed;
+//	}
+//
+//	GLfloat getYpos() const {
+//		return ypos;
+//	}
+//
+//	void setYpos(GLfloat ypos) {
+//		this->ypos = ypos;
+//	}
 
 	bool isIsActive() const {
 		return isActive;
