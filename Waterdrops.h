@@ -9,8 +9,9 @@
 #define WATERDROPS_H_
 
 #include <vector>
+
+#include "GlassPanel.h"
 #include "Waterdrop.h"
-#include "Physics.h"
 
 class Waterdrops {
 public:
@@ -28,7 +29,7 @@ public:
 
 private:
 	std::vector<Waterdrop> waterdrops;
-	Physics glassPanel;
+	GlassPanel glassPanel;
 };
 
 #endif /* WATERDROPS_H_ */

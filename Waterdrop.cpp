@@ -12,7 +12,12 @@
 #include "Random.h"
 
 GLfloat getRadiusFromMass(GLfloat mass) {
-	return powf(mass / (PI * (2/3)), 1/3) + 3.5;
+	GLfloat tmp = 0;
+	tmp = 2.f / 3.f;
+	tmp = (PI * tmp);
+	tmp = (mass / tmp);
+	tmp = powf(tmp, (1.f/3.f));
+	return tmp * 3;
 }
 
 Waterdrop::Waterdrop() {
@@ -20,15 +25,14 @@ Waterdrop::Waterdrop() {
 	this->mass = Random::randGlfloat(4.2, 0.1);
 	this->radius = getRadiusFromMass(this->mass);
 	this->xpos = Random::randGlfloat(WINDOW_WIDTH - this->radius, this->radius);
-	this->ypos = Random::randGlfloat(WINDOW_HEIGHT - this->radius,
-			this->radius);
-	this->xSpeed = Random::randGlfloat(0.1, -0.1);
-	this->ySpeed = 0.1f;
+	this->ypos = Random::randGlfloat(WINDOW_HEIGHT - this->radius, this->radius);
+	this->xSpeed = Random::randGlfloat(1.0f, 0.0f);
+	this->ySpeed = Random::randGlfloat(1.0f, this->xSpeed);
 	this->red = Random::randGlfloat(1.0f, 0.0f);
 	this->green = Random::randGlfloat(1.0f, 0.0f);
 	this->blue = 1.0f;
 	this->Acceleration = 0.0f;
-	this->Deceleration = Random::randGlfloat(0.6f, 0.0f);
+	this->Deceleration = 0.0f;
 	this->Scalez = 0.0f;
 	this->direction = 0; // gerade runter fliessen
 }
@@ -38,14 +42,14 @@ void Waterdrop::reset() {
 	this->mass = Random::randGlfloat(4.2, 0.1);
 	this->radius = getRadiusFromMass(this->mass);
 	this->xpos = Random::randGlfloat(WINDOW_WIDTH - this->radius, this->radius);
-	this->ypos = WINDOW_HEIGHT;
-	this->xSpeed = Random::randGlfloat(0.1, -0.1);
-	this->ySpeed = 0.1f;
+	this->ypos = WINDOW_HEIGHT - this->radius;
+	this->xSpeed = Random::randGlfloat(1.0f, 0.0f);
+	this->ySpeed = Random::randGlfloat(1.0f, this->xSpeed);
 	this->red = Random::randGlfloat(1.0f, 0.0f);
 	this->green = Random::randGlfloat(1.0f, 0.0f);
 	this->blue = 1.0f;
 	this->Acceleration = 0.0f;
-	this->Deceleration = Random::randGlfloat(0.6f, 0.0f);
+	this->Deceleration = 0.0f;
 	this->Scalez = 0.0f;
 	this->direction = 0;
 	freeShape.clear();

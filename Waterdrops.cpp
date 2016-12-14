@@ -11,7 +11,7 @@
 
 Waterdrops::Waterdrops() {
 	// TODO Auto-generated constructor stub
-	//glassPanel = Physics();
+	//glassPanel = GlassPanel();
 	for (int idx = 0; idx < 75; idx++) {
 		Waterdrop drop;
 		waterdrops.push_back(drop);
@@ -30,6 +30,9 @@ void Waterdrops::update(){
 		Waterdrop & drop = *it;
 		if (drop.isIsActive() == true) {
 			glassPanel.addMassAtPoint((int)drop.getXpos(), (int)drop.getYpos(), -1*drop.getMass());
+			GLfloat speed = glassPanel.calcSpeed(drop.getMass()) / 10;
+			drop.setXSpeed(drop.getXSpeed() + speed);
+			drop.setYSpeed(drop.getYSpeed() + speed);
 			drop.updatePosition();
 			glassPanel.addMassAtPoint((int)drop.getXpos(), (int)drop.getYpos(), drop.getMass());
 			/* collision dectection could be in own method*/

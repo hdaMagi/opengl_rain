@@ -1,12 +1,12 @@
 /*
- * Physics.h
+ * GlassPanel.h
  *
  *  Created on: 07.12.2016
  *      Author: kiara
  */
 
-#ifndef PHYSICS_H_
-#define PHYSICS_H_
+#ifndef GlassPanel_H_
+#define GlassPanel_H_
 
 #include <GL/glut.h>
 #include "Waterdrop.h"
@@ -18,7 +18,7 @@ struct PaneInfo {
 	GLfloat mass;
 };
 
-class Physics {
+class GlassPanel {
 private:
 	PaneInfo glassPane [WINDOW_WIDTH][WINDOW_HEIGHT];
 	void setHeight(int x, int y, bool min, GLfloat height);
@@ -27,13 +27,14 @@ private:
 	bool isInMatrix(int x, int y);
 public:
 	const GLfloat gravitation = 9.81; 	//Erdbeschleunigung [für Deutschland: g ≈ 9,81 m/s²]
-	const GLfloat maxMass = 0.42; 		//Maximale Masse bevor ein Tropfen beginnt zu fließen
+	const GLfloat maxMass = 2.f; 		//Maximale Masse bevor ein Tropfen beginnt zu fließen //Im Netz 4.2
 	const GLfloat frictional = maxMass * gravitation; //Reibungskraft
-	Physics();
-	virtual ~Physics();
+	GlassPanel();
+	virtual ~GlassPanel();
 	GLfloat getHeightAtPoint(int x, int y);
 	GLfloat getMassAtPoint(int x, int y);
 	void addMassAtPoint(int x, int y, GLfloat mass);
+	GLfloat calcSpeed(GLfloat mass);
 };
 
-#endif /* PHYSICS_H_ */
+#endif /* GlassPanel_H_ */

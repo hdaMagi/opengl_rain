@@ -1,15 +1,15 @@
 /*
- * Physics.cpp
+ * GlassPanel.cpp
  *
  *  Created on: 07.12.2016
  *      Author: kiara
  */
 
-#include "Physics.h"
+#include "GlassPanel.h"
 #include <algorithm>
 #include <GL/glut.h>
 
-Physics::Physics() {
+GlassPanel::GlassPanel() {
 	// TODO Auto-generated constructor stub
 	for (int width = 0; width < WINDOW_WIDTH; width++) {
 		for (int height = 0; height < WINDOW_HEIGHT; height++) {
@@ -40,11 +40,11 @@ Physics::Physics() {
 	this->setHill(50, 70);
 }
 
-Physics::~Physics() {
+GlassPanel::~GlassPanel() {
 	// TODO Auto-generated destructor stub
 }
 
-void Physics::setHeight(int x, int y, bool isVale, GLfloat height) {
+void GlassPanel::setHeight(int x, int y, bool isVale, GLfloat height) {
 	if (this->isInMatrix(x, y) && (height > 0)) {
 		GLfloat h = (1 / 8) * height;
 		if (isVale) {
@@ -70,7 +70,7 @@ void Physics::setHeight(int x, int y, bool isVale, GLfloat height) {
 	}
 }
 
-void Physics::setVale(int x, int y) {
+void GlassPanel::setVale(int x, int y) {
 	this->glassPane[x][y].height = -1.0;
 	this->setHeight(x-1, y-1, true, 7);
 	this->setHeight(x  , y-1, true, 7);
@@ -85,7 +85,7 @@ void Physics::setVale(int x, int y) {
 	this->setHeight(x+1, y+1, true, 7);
 }
 
-void Physics::setHill(int x, int y) {
+void GlassPanel::setHill(int x, int y) {
 	this->glassPane[x][y].height = 1.0;
 	this->setHeight(x-1, y-1, false, 7);
 	this->setHeight(x  , y-1, false, 7);
@@ -100,15 +100,15 @@ void Physics::setHill(int x, int y) {
 	this->setHeight(x+1, y+1, false, 7);
 }
 
-GLfloat Physics::getHeightAtPoint(int x, int y) {
+GLfloat GlassPanel::getHeightAtPoint(int x, int y) {
 	return this->glassPane[x][y].height;
 }
 
-GLfloat Physics::getMassAtPoint(int x, int y) {
+GLfloat GlassPanel::getMassAtPoint(int x, int y) {
 	return this->glassPane[x][y].mass;
 }
 
-void Physics::addMassAtPoint(int x, int y, GLfloat mass) {
+void GlassPanel::addMassAtPoint(int x, int y, GLfloat mass) {
 	if (this->isInMatrix(x, y)) {
 		this->glassPane[x][y].mass += mass;
 		if (this->glassPane[x][y].mass < 0) {
@@ -117,6 +117,10 @@ void Physics::addMassAtPoint(int x, int y, GLfloat mass) {
 	}
 }
 
-bool Physics::isInMatrix(int x, int y) {
+bool GlassPanel::isInMatrix(int x, int y) {
 	return ((x >= 0) && (x < WINDOW_WIDTH) && (y >= 0) && (y < WINDOW_HEIGHT));
+}
+
+GLfloat GlassPanel::calcSpeed(GLfloat mass) {
+	return (((mass * this->gravitation) - this->frictional) / mass);
 }
