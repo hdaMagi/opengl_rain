@@ -9,7 +9,6 @@
 #define GlassPanel_H_
 
 #include <GL/glut.h>
-#include "Waterdrop.h"
 #include "Globals.h"
 #include <vector>
 
@@ -26,9 +25,8 @@ private:
 	void setHill(int x, int y);
 	bool isInMatrix(int x, int y);
 public:
-	const GLfloat gravitation = 9.81; 	//Erdbeschleunigung [für Deutschland: g ≈ 9,81 m/s²]
-	const GLfloat maxMass = 2.f; 		//Maximale Masse bevor ein Tropfen beginnt zu fließen //Im Netz 4.2
-	const GLfloat frictional = maxMass * gravitation; //Reibungskraft
+	const static GLfloat gravitation = 9.81; 	//Erdbeschleunigung [für Deutschland: g ≈ 9,81 m/s²]
+	const static GLfloat maxMass = 2.f; 		//Maximale Masse bevor ein Tropfen beginnt zu fließen //Im Netz 4.2
 	GlassPanel();
 	virtual ~GlassPanel();
 	GLfloat getHeightAtPoint(int x, int y);

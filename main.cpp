@@ -16,12 +16,14 @@ float clamp(float value, float min, float max) {
 }
 
 void drawFreeShape(Waterdrop drop) {
-
-	glBegin(GL_POLYGON);
+	glPolygonMode( GL_FRONT, GL_LINE);
+	glBegin(GL_TRIANGLE_FAN);
 	std::vector<point2d> shape = drop.getFreeShape();
-	for (int i = 0; i < shape.size(); i++) {
+	for (unsigned int i = 0; i < shape.size(); i++) {
 		point2d point = shape.at(i);
 		glVertex2i(point.xcoord, point.ycoord);
+		fflush(stdout);
+
 	}
 
 	glEnd();
@@ -70,11 +72,12 @@ void display(void) {
 	glClear(GL_COLOR_BUFFER_BIT);
 	/* ugly but working for the moment */
 	std::vector<Waterdrop> waterdrops = drops.getWaterdrops();
-	int size = waterdrops.size();
-	for (int idx = 0; idx < size; idx++) {
+	for (unsigned int idx = 0; idx < waterdrops.size(); idx++) {
 		Waterdrop drop = waterdrops[idx];
 		glColor3f(drop.getRed(), drop.getGreen(), drop.getBlue());
 		drawFreeShape(drop);
+		fflush(stdout);
+
 	}
 	glutSwapBuffers();
 	glFlush();
@@ -83,6 +86,7 @@ void display(void) {
 int main(int argc, char** argv) {
 	//programPath = argv[0];
 	timeval t1;
+	fflush(stdout);
 	gettimeofday(&t1, NULL);
 	srand(t1.tv_usec * t1.tv_sec);
 	// GLUT

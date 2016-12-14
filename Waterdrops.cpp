@@ -11,11 +11,9 @@
 
 Waterdrops::Waterdrops() {
 	// TODO Auto-generated constructor stub
-	//glassPanel = GlassPanel();
-	for (int idx = 0; idx < 75; idx++) {
+	for (int idx = 0; idx < 5; idx++) {
 		Waterdrop drop;
 		waterdrops.push_back(drop);
-		this->glassPanel.addMassAtPoint((int)drop.getXpos(), (int)drop.getYpos(), drop.getMass());
 	}
 }
 
@@ -29,12 +27,7 @@ void Waterdrops::update(){
 			it != waterdrops.end(); ++it) {
 		Waterdrop & drop = *it;
 		if (drop.isIsActive() == true) {
-			glassPanel.addMassAtPoint((int)drop.getXpos(), (int)drop.getYpos(), -1*drop.getMass());
-			GLfloat speed = glassPanel.calcSpeed(drop.getMass(), (int)drop.getXpos(), (int)drop.getYpos()) / 10;
-			drop.setXSpeed(drop.getXSpeed() + speed);
-			drop.setYSpeed(drop.getYSpeed() + speed);
-			drop.updatePosition();
-			glassPanel.addMassAtPoint((int)drop.getXpos(), (int)drop.getYpos(), drop.getMass());
+			drop.updatePosition(&this->glassPanel);
 			/* collision dectection could be in own method*/
 			for (std::vector<Waterdrop>::iterator it2 = waterdrops.begin();
 					it2 != waterdrops.end(); ++it2) {

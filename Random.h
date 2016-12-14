@@ -15,7 +15,7 @@ public:
 	Random();
 	virtual ~Random();
 	static GLfloat randGlfloat(GLfloat max, GLfloat min);
-
+	int getRandom(int min, int max);
 };
 
 #endif /* RANDOM_H_ */
