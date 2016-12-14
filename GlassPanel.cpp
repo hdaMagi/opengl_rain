@@ -46,7 +46,7 @@ GlassPanel::~GlassPanel() {
 
 void GlassPanel::setHeight(int x, int y, bool isVale, GLfloat height) {
 	if (this->isInMatrix(x, y) && (height > 0)) {
-		GLfloat h = (1 / 8) * height;
+		GLfloat h = (1 / 8) * height * this->maxMass;
 		if (isVale) {
 			h *= -1;
 			if (h < this->glassPane[x][y].height) {
@@ -71,7 +71,7 @@ void GlassPanel::setHeight(int x, int y, bool isVale, GLfloat height) {
 }
 
 void GlassPanel::setVale(int x, int y) {
-	this->glassPane[x][y].height = -1.0;
+	this->glassPane[x][y].height = -1.0 * this->maxMass;
 	this->setHeight(x-1, y-1, true, 7);
 	this->setHeight(x  , y-1, true, 7);
 	this->setHeight(x+1, y-1, true, 7);
@@ -86,7 +86,7 @@ void GlassPanel::setVale(int x, int y) {
 }
 
 void GlassPanel::setHill(int x, int y) {
-	this->glassPane[x][y].height = 1.0;
+	this->glassPane[x][y].height = 1.0 * this->maxMass;
 	this->setHeight(x-1, y-1, false, 7);
 	this->setHeight(x  , y-1, false, 7);
 	this->setHeight(x+1, y-1, false, 7);
@@ -121,6 +121,10 @@ bool GlassPanel::isInMatrix(int x, int y) {
 	return ((x >= 0) && (x < WINDOW_WIDTH) && (y >= 0) && (y < WINDOW_HEIGHT));
 }
 
-GLfloat GlassPanel::calcSpeed(GLfloat mass) {
-	return (((mass * this->gravitation) - this->frictional) / mass);
+GLfloat GlassPanel::calcSpeed(GLfloat mass, int x, int y) {
+	if (isInMatrix(x, y)) {
+		return (((mass * this->gravitation) - this->glassPane[x][y].height) / mass);
+	} else {
+		return 1.f;
+	}
 }

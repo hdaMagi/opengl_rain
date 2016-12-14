@@ -30,7 +30,7 @@ void Waterdrops::update(){
 		Waterdrop & drop = *it;
 		if (drop.isIsActive() == true) {
 			glassPanel.addMassAtPoint((int)drop.getXpos(), (int)drop.getYpos(), -1*drop.getMass());
-			GLfloat speed = glassPanel.calcSpeed(drop.getMass()) / 10;
+			GLfloat speed = glassPanel.calcSpeed(drop.getMass(), (int)drop.getXpos(), (int)drop.getYpos()) / 10;
 			drop.setXSpeed(drop.getXSpeed() + speed);
 			drop.setYSpeed(drop.getYSpeed() + speed);
 			drop.updatePosition();

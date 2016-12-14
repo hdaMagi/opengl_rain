@@ -34,7 +34,7 @@ public:
 	GLfloat getHeightAtPoint(int x, int y);
 	GLfloat getMassAtPoint(int x, int y);
 	void addMassAtPoint(int x, int y, GLfloat mass);
-	GLfloat calcSpeed(GLfloat mass);
+	GLfloat calcSpeed(GLfloat mass, int x, int y);
 };
 
 #endif /* GlassPanel_H_ */
