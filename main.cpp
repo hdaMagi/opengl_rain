@@ -17,7 +17,7 @@ float clamp(float value, float min, float max) {
 
 void drawFreeShape(Waterdrop drop) {
 	glPolygonMode( GL_FRONT, GL_LINE);
-	glBegin(GL_TRIANGLE_STRIP);
+	glBegin(GL_TRIANGLE_FAN);
 	std::vector<point2d> shape = drop.getFreeShape();
 	for (unsigned int i = 0; i < shape.size(); i++) {
 		point2d point = shape.at(i);

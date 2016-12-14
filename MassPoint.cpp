@@ -27,7 +27,7 @@ MassPoint::MassPoint() {
 	this->red = Random::randGlfloat(1.0f, 0.0f);
 	this->green = Random::randGlfloat(1.0f, 0.0f);
 	this->blue = 1.0f;
-	this->Deceleration = Random::randGlfloat(0.6f, 0.0f);
+	this->Deceleration = Random::randGlfloat(0.000000f, 0.0000f);
 	this->direction = 0; // gerade runter fließen
 }
 

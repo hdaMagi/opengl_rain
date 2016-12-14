@@ -20,6 +20,8 @@ Waterdrop::Waterdrop() {
 	MassPoint x;
 	this->vecMassPoints.push_back(x);
 	MassPoint y;
+	y.setYpos(x.getYpos() + 100);
+	y.setXpos(x.getXpos());
 	this->vecMassPoints.push_back(y);
 	this->isActive = true;
 //	this->radius = Random::randGlfloat(7.0f, 5.0f);
@@ -99,22 +101,76 @@ bool Waterdrop::updatePosition() {
 
 	for (unsigned int i = 0; i < vecMassPoints.size(); i++) {
 		ret &= vecMassPoints.at(i).updatePosition();
-
-		for (GLfloat j = 0; j < PI; j = j + 0.1) {
-			if (iter % 2 == 0) {
-				x.xcoord = vecMassPoints.at(i).getXpos() + sin(j) * 10;
-			} else {
-				x.xcoord = vecMassPoints.at(i).getXpos() - sin(j) * 10;
-			}
-			if (i < PI / 2) {
-				x.ycoord = vecMassPoints.at(i).getYpos() - j * (1 - iter);
-			} else {
-				x.ycoord = vecMassPoints.at(i).getYpos() + j * iter;
-			}
-			freeShape.push_back(x);
-			iter++;
-		}
 	}
+
+//	// informal codings
+//	// upper point
+//	x.xcoord = vecMassPoints.at(0).getXpos();
+//	x.ycoord = vecMassPoints.at(0).getYpos();
+//	freeShape.push_back(x);
+
+//	// left middle point
+//	x.xcoord = (vecMassPoints.at(0).getXpos() + vecMassPoints.at(1).getXpos()) / 2;
+//	x.ycoord = vecMassPoints.at(1).getYpos() - vecMassPoints.at(1).getRadius();
+//	freeShape.push_back(x);
+
+// lower point
+	x.xcoord = vecMassPoints.at(0).getXpos();
+	x.ycoord = vecMassPoints.at(0).getYpos();
+	freeShape.push_back(x);
+
+	x.xcoord = vecMassPoints.at(1).getXpos();
+	x.ycoord = vecMassPoints.at(1).getYpos();
+	freeShape.push_back(x);
+
+	x.xcoord = ((vecMassPoints.at(1).getXpos() + vecMassPoints.at(0).getXpos()) / 2) - vecMassPoints.at(0).getRadius();
+	x.ycoord = ((vecMassPoints.at(1).getYpos() + vecMassPoints.at(0).getYpos()) / 2);
+	freeShape.push_back(x);
+
+	x.xcoord = vecMassPoints.at(0).getXpos() - vecMassPoints.at(0).getRadius();
+	x.ycoord = vecMassPoints.at(0).getYpos();
+	freeShape.push_back(x);
+
+	x.xcoord = vecMassPoints.at(0).getXpos();
+	x.ycoord = vecMassPoints.at(0).getYpos() - vecMassPoints.at(0).getRadius();
+	freeShape.push_back(x);
+
+	x.xcoord = vecMassPoints.at(0).getXpos() + vecMassPoints.at(0).getRadius();
+	x.ycoord = vecMassPoints.at(0).getYpos();
+	freeShape.push_back(x);
+
+	x.xcoord = ((vecMassPoints.at(1).getXpos() + vecMassPoints.at(0).getXpos()) / 2) + vecMassPoints.at(0).getRadius();
+	x.ycoord = ((vecMassPoints.at(1).getYpos() + vecMassPoints.at(0).getYpos()) / 2);
+	freeShape.push_back(x);
+
+	x.xcoord = vecMassPoints.at(1).getXpos();
+	x.ycoord = vecMassPoints.at(1).getYpos();
+	freeShape.push_back(x);
+
+//	x.xcoord = vecMassPoints.at(1).getXpos();
+//	x.ycoord = vecMassPoints.at(1).getYpos() - vecMassPoints.at(1).getRadius();
+//	freeShape.push_back(x);
+//	x.xcoord =  (vecMassPoints.at(0).getXpos() + vecMassPoints.at(1).getXpos()) / 2;
+//	x.ycoord = vecMassPoints.at(1).getYpos() + vecMassPoints.at(1).getRadius();
+//	freeShape.push_back(x);
+
+//
+
+//		for (GLfloat j = 0; j < PI; j = j + 0.1) {
+//			if (iter % 2 == 0) {
+//				x.xcoord = vecMassPoints.at(i).getXpos() + sin(j) * 10;
+//			} else {
+//				x.xcoord = vecMassPoints.at(i).getXpos() - sin(j) * 10;
+//			}
+//			if (i < PI / 2) {
+//				x.ycoord = vecMassPoints.at(i).getYpos() - j * (1 - iter);
+//			} else {
+//				x.ycoord = vecMassPoints.at(i).getYpos() + j * iter;
+//			}
+//			freeShape.push_back(x);
+//			iter++;
+//		}
+//}
 	return ret;
 }
 //
