@@ -115,25 +115,56 @@ bool Waterdrop::updatePosition() {
 //	freeShape.push_back(x);
 
 // lower point
-	x.xcoord = vecMassPoints.at(0).getXpos();
-	x.ycoord = vecMassPoints.at(0).getYpos();
-	freeShape.push_back(x);
 
+// punkt oben
 	x.xcoord = vecMassPoints.at(1).getXpos();
 	x.ycoord = vecMassPoints.at(1).getYpos();
 	freeShape.push_back(x);
+
+	x.xcoord = vecMassPoints.at(1).getXpos();
+	x.ycoord = vecMassPoints.at(1).getYpos() + vecMassPoints.at(1).getRadius();
+	freeShape.push_back(x);
+
+	for (GLfloat i= 0; i <  PI / 2; i += 0.1f) {
+		x.xcoord = vecMassPoints.at(1).getXpos() + vecMassPoints.at(1).getRadius() * cos(i);
+		x.ycoord = vecMassPoints.at(1).getYpos() + vecMassPoints.at(1).getRadius() * sin(i);
+		freeShape.push_back(x);
+	}
+
+	x.xcoord = vecMassPoints.at(1).getXpos() - vecMassPoints.at(1).getRadius();
+	x.ycoord = vecMassPoints.at(1).getYpos();
+	freeShape.push_back(x);
+
+
+	for (GLfloat i= PI; i <  PI + PI / 2; i += 0.1f) {
+		x.xcoord = vecMassPoints.at(0).getXpos() + vecMassPoints.at(1).getRadius() * cos(i);
+		x.ycoord = vecMassPoints.at(0).getYpos() + vecMassPoints.at(1).getRadius() * sin(i);
+		freeShape.push_back(x);
+	}
+
 
 	x.xcoord = ((vecMassPoints.at(1).getXpos() + vecMassPoints.at(0).getXpos()) / 2) - vecMassPoints.at(0).getRadius();
 	x.ycoord = ((vecMassPoints.at(1).getYpos() + vecMassPoints.at(0).getYpos()) / 2);
 	freeShape.push_back(x);
 
+
+
 	x.xcoord = vecMassPoints.at(0).getXpos() - vecMassPoints.at(0).getRadius();
 	x.ycoord = vecMassPoints.at(0).getYpos();
 	freeShape.push_back(x);
 
+	for (GLfloat i= PI /2; i <  PI; i += 0.1f) {
+		x.xcoord = vecMassPoints.at(1).getXpos() + vecMassPoints.at(1).getRadius() * cos(i);
+		x.ycoord = vecMassPoints.at(1).getYpos() + vecMassPoints.at(1).getRadius() * sin(i);
+		freeShape.push_back(x);
+	}
+
 	x.xcoord = vecMassPoints.at(0).getXpos();
 	x.ycoord = vecMassPoints.at(0).getYpos() - vecMassPoints.at(0).getRadius();
 	freeShape.push_back(x);
+
+
+
 
 	x.xcoord = vecMassPoints.at(0).getXpos() + vecMassPoints.at(0).getRadius();
 	x.ycoord = vecMassPoints.at(0).getYpos();
@@ -143,9 +174,23 @@ bool Waterdrop::updatePosition() {
 	x.ycoord = ((vecMassPoints.at(1).getYpos() + vecMassPoints.at(0).getYpos()) / 2);
 	freeShape.push_back(x);
 
-	x.xcoord = vecMassPoints.at(1).getXpos();
+	x.xcoord = vecMassPoints.at(1).getXpos() + vecMassPoints.at(1).getRadius();
 	x.ycoord = vecMassPoints.at(1).getYpos();
 	freeShape.push_back(x);
+
+	for (GLfloat i= PI + PI /2; i <  2*PI; i += 0.1f) {
+		x.xcoord = vecMassPoints.at(0).getXpos() + vecMassPoints.at(1).getRadius() * cos(i);
+		x.ycoord = vecMassPoints.at(0).getYpos() + vecMassPoints.at(1).getRadius() * sin(i);
+		freeShape.push_back(x);
+	}
+
+	x.xcoord = vecMassPoints.at(1).getXpos();
+	x.ycoord = vecMassPoints.at(1).getYpos() + vecMassPoints.at(1).getRadius();
+	freeShape.push_back(x);
+
+//	x.xcoord = vecMassPoints.at(1).getXpos();
+//	x.ycoord = vecMassPoints.at(1).getYpos() - vecMassPoints.at(1).getRadius();
+//	freeShape.push_back(x);
 
 //	x.xcoord = vecMassPoints.at(1).getXpos();
 //	x.ycoord = vecMassPoints.at(1).getYpos() - vecMassPoints.at(1).getRadius();

@@ -23,7 +23,6 @@ void drawFreeShape(Waterdrop drop) {
 		point2d point = shape.at(i);
 		glVertex2i(point.xcoord, point.ycoord);
 		fflush(stdout);
-
 	}
 
 	glEnd();
