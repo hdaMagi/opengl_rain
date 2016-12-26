@@ -9,9 +9,10 @@
 #include "Waterdrop.h"
 
 
+
 Waterdrops::Waterdrops() {
 	// TODO Auto-generated constructor stub
-	for (int idx = 0; idx < 5; idx++) {
+	for (int idx = 0; idx < 2; idx++) {
 		Waterdrop drop;
 		waterdrops.push_back(drop);
 	}
@@ -28,7 +29,6 @@ void Waterdrops::update(){
 		Waterdrop & drop = *it;
 		if (drop.isIsActive() == true) {
 			drop.updatePosition();
-
 			/* collision dectection could be in own method*/
 			for (std::vector<Waterdrop>::iterator it2 = waterdrops.begin();
 					it2 != waterdrops.end(); ++it2) {

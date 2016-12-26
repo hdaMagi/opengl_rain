@@ -27,7 +27,7 @@ MassPoint::MassPoint() {
 	this->red = Random::randGlfloat(1.0f, 0.0f);
 	this->green = Random::randGlfloat(1.0f, 0.0f);
 	this->blue = 1.0f;
-	this->Deceleration = Random::randGlfloat(0.00000000000f, 0.0000000000f);
+	this->Deceleration = Random::randGlfloat(0.05f, 0.05f);
 	this->direction = 0; // gerade runter fließen
 }
 
@@ -41,7 +41,7 @@ void MassPoint::reset() {
 	this->red = Random::randGlfloat(1.0f, 0.0f);
 	this->green = Random::randGlfloat(1.0f, 0.0f);
 	this->blue = 1.0f;
-	this->Deceleration = Random::randGlfloat(0.000000000000f, 0.000000000000f);
+	this->Deceleration = Random::randGlfloat(0.05f, 0.05f);
 	this->direction = 0;
 //	for (std::vector<Waterdrop*>::iterator it =
 //			this->inactivatedDueToJoined.begin();

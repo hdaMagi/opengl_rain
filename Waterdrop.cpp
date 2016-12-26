@@ -11,6 +11,7 @@
 #include "Globals.h"
 #include "Random.h"
 #include "Waterdrops.h"
+#include "BoundingBox.h"
 #include <stdio.h>      /* printf, scanf, puts, NULL */
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
@@ -35,6 +36,8 @@ Waterdrop::Waterdrop() {
 	this->blue = 1.0f;
 //	this->Deceleration = Random::randGlfloat(0.6f, 0.0f);
 //	this->direction = 0; // gerade runter fließen
+
+	b = new BoundingBox(vecMassPoints);
 }
 
 //void Waterdrop::reset() {
@@ -63,14 +66,27 @@ Waterdrop::Waterdrop() {
 // * for free shape joining will be much more complicated so we're leaving the method here
 // * drop2 is the looser
 // */
+
 void Waterdrop::joinDrops(Waterdrop* drop2) {
 //	radius = sqrt(((pow(radius, 2) * PI) + (pow(radius, 2) * PI)) / PI);
-//	drop2->setIsActive(false);
+	drop2->setIsActive(false);
 //	drop2->setXpos(-200); // hiding "looser" joined drops
-//	this->inactivatedDueToJoined.push_back(drop2);
+	this->inactivatedDueToJoined.push_back(drop2);
 }
 
-bool Waterdrop::detectCollision(Waterdrop *drop2) {
+GLboolean Waterdrop::detectCollision(Waterdrop *drop2) {
+
+	// Collision x-axis?
+	bool collisionX = this->b->p2.xcoord >= drop2->b->p1.xcoord && this->b->p1.xcoord <= drop2->b->p2.xcoord;
+	// Collision y-axis?
+	bool collisionY = this->b->p2.ycoord >= drop2->b->p1.ycoord && this->b->p1.ycoord <= drop2->b->p2.ycoord; //one.Position.y + one.Size.y >= two.Position.y &&
+	if (collisionY && collisionX) {
+		printf("%05f > %05f ycollision\n", this->b->p2.ycoord, drop2->b->p1.ycoord);
+	}
+	//	        two.Position.y + two.Size.y >= one.Position.y;
+	// Collision only if on both axes
+	return collisionX && collisionY;
+
 //	float dst = sqrt(
 //			pow((drop2->getXpos() - this->getXpos()), 2)
 //					+ pow((drop2->getYpos() - this->getYpos()), 2));
@@ -86,6 +102,11 @@ bool Waterdrop::detectCollision(Waterdrop *drop2) {
 	return false;
 }
 
+void Waterdrop::AxisSeparatePolygons(std::vector<point2d> whatever,
+		std::vector<point2d> A, std::vector<point2d> B) {
+
+}
+
 /**
  * Assuming we're updating all positions at once.
  * return: 1 if update was succsessful
@@ -95,14 +116,13 @@ bool Waterdrop::updatePosition() {
 	bool ret = 1;
 
 	freeShape.clear();
-
 	point2d x;
-	int iter = 0;
 
 	for (unsigned int i = 0; i < vecMassPoints.size(); i++) {
 		ret &= vecMassPoints.at(i).updatePosition();
 	}
 
+	b->update(vecMassPoints);
 //	// informal codings
 //	// upper point
 //	x.xcoord = vecMassPoints.at(0).getXpos();
@@ -125,9 +145,11 @@ bool Waterdrop::updatePosition() {
 	x.ycoord = vecMassPoints.at(1).getYpos() + vecMassPoints.at(1).getRadius();
 	freeShape.push_back(x);
 
-	for (GLfloat i= 0; i <  PI / 2; i += 0.1f) {
-		x.xcoord = vecMassPoints.at(1).getXpos() + vecMassPoints.at(1).getRadius() * cos(i);
-		x.ycoord = vecMassPoints.at(1).getYpos() + vecMassPoints.at(1).getRadius() * sin(i);
+	for (GLfloat i = 0; i < PI / 2; i += 0.1f) {
+		x.xcoord = vecMassPoints.at(1).getXpos()
+				+ vecMassPoints.at(1).getRadius() * cos(i);
+		x.ycoord = vecMassPoints.at(1).getYpos()
+				+ vecMassPoints.at(1).getRadius() * sin(i);
 		freeShape.push_back(x);
 	}
 
@@ -135,27 +157,29 @@ bool Waterdrop::updatePosition() {
 	x.ycoord = vecMassPoints.at(1).getYpos();
 	freeShape.push_back(x);
 
-
-	for (GLfloat i= PI; i <  PI + PI / 2; i += 0.1f) {
-		x.xcoord = vecMassPoints.at(0).getXpos() + vecMassPoints.at(1).getRadius() * cos(i);
-		x.ycoord = vecMassPoints.at(0).getYpos() + vecMassPoints.at(1).getRadius() * sin(i);
+	for (GLfloat i = PI; i < PI + PI / 2; i += 0.1f) {
+		x.xcoord = vecMassPoints.at(0).getXpos()
+				+ vecMassPoints.at(1).getRadius() * cos(i);
+		x.ycoord = vecMassPoints.at(0).getYpos()
+				+ vecMassPoints.at(1).getRadius() * sin(i);
 		freeShape.push_back(x);
 	}
 
-
-	x.xcoord = ((vecMassPoints.at(1).getXpos() + vecMassPoints.at(0).getXpos()) / 2) - vecMassPoints.at(0).getRadius();
-	x.ycoord = ((vecMassPoints.at(1).getYpos() + vecMassPoints.at(0).getYpos()) / 2);
+	x.xcoord = ((vecMassPoints.at(1).getXpos() + vecMassPoints.at(0).getXpos())
+			/ 2) - vecMassPoints.at(0).getRadius();
+	x.ycoord = ((vecMassPoints.at(1).getYpos() + vecMassPoints.at(0).getYpos())
+			/ 2);
 	freeShape.push_back(x);
-
-
 
 	x.xcoord = vecMassPoints.at(0).getXpos() - vecMassPoints.at(0).getRadius();
 	x.ycoord = vecMassPoints.at(0).getYpos();
 	freeShape.push_back(x);
 
-	for (GLfloat i= PI /2; i <  PI; i += 0.1f) {
-		x.xcoord = vecMassPoints.at(1).getXpos() + vecMassPoints.at(1).getRadius() * cos(i);
-		x.ycoord = vecMassPoints.at(1).getYpos() + vecMassPoints.at(1).getRadius() * sin(i);
+	for (GLfloat i = PI / 2; i < PI; i += 0.1f) {
+		x.xcoord = vecMassPoints.at(1).getXpos()
+				+ vecMassPoints.at(1).getRadius() * cos(i);
+		x.ycoord = vecMassPoints.at(1).getYpos()
+				+ vecMassPoints.at(1).getRadius() * sin(i);
 		freeShape.push_back(x);
 	}
 
@@ -163,24 +187,25 @@ bool Waterdrop::updatePosition() {
 	x.ycoord = vecMassPoints.at(0).getYpos() - vecMassPoints.at(0).getRadius();
 	freeShape.push_back(x);
 
-
-
-
 	x.xcoord = vecMassPoints.at(0).getXpos() + vecMassPoints.at(0).getRadius();
 	x.ycoord = vecMassPoints.at(0).getYpos();
 	freeShape.push_back(x);
 
-	x.xcoord = ((vecMassPoints.at(1).getXpos() + vecMassPoints.at(0).getXpos()) / 2) + vecMassPoints.at(0).getRadius();
-	x.ycoord = ((vecMassPoints.at(1).getYpos() + vecMassPoints.at(0).getYpos()) / 2);
+	x.xcoord = ((vecMassPoints.at(1).getXpos() + vecMassPoints.at(0).getXpos())
+			/ 2) + vecMassPoints.at(0).getRadius();
+	x.ycoord = ((vecMassPoints.at(1).getYpos() + vecMassPoints.at(0).getYpos())
+			/ 2);
 	freeShape.push_back(x);
 
 	x.xcoord = vecMassPoints.at(1).getXpos() + vecMassPoints.at(1).getRadius();
 	x.ycoord = vecMassPoints.at(1).getYpos();
 	freeShape.push_back(x);
 
-	for (GLfloat i= PI + PI /2; i <  2*PI; i += 0.1f) {
-		x.xcoord = vecMassPoints.at(0).getXpos() + vecMassPoints.at(1).getRadius() * cos(i);
-		x.ycoord = vecMassPoints.at(0).getYpos() + vecMassPoints.at(1).getRadius() * sin(i);
+	for (GLfloat i = PI + PI / 2; i < 2 * PI; i += 0.1f) {
+		x.xcoord = vecMassPoints.at(0).getXpos()
+				+ vecMassPoints.at(1).getRadius() * cos(i);
+		x.ycoord = vecMassPoints.at(0).getYpos()
+				+ vecMassPoints.at(1).getRadius() * sin(i);
 		freeShape.push_back(x);
 	}
 

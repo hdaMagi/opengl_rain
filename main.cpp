@@ -8,6 +8,8 @@
 #include "Waterdrop.h"
 #include "Waterdrops.h"
 #include "main.h"
+#include <algorithm>  // min / max
+//#include <cmath> // <ctgmath>
 
 Waterdrops drops;
 
@@ -24,6 +26,21 @@ void drawFreeShape(Waterdrop drop) {
 		glVertex2i(point.xcoord, point.ycoord);
 		fflush(stdout);
 	}
+
+	glEnd();
+}
+
+void drawBoundingBox(Waterdrop drop) {
+
+	point2d pAC = drop.b->pAC;
+	point2d pAF = drop.b->pAF;
+
+	glPolygonMode( GL_FRONT, GL_LINE);
+	glBegin(GL_POLYGON);
+	glVertex3f(drop.b->p1.xcoord, drop.b->p1.ycoord, 0.0); // std::min(pAC.xcoord, pAF.xcoord), std::min(pAC.ycoord, pAF.ycoord), 0.0);
+	glVertex3f(drop.b->p2.xcoord, drop.b->p1.ycoord, 0.0); // std::max(pAF.xcoord, pAC.xcoord), std::min(pAC.ycoord, pAF.ycoord), 0.0);
+	glVertex3f(drop.b->p2.xcoord, drop.b->p2.ycoord, 0.0); // std::max(pAF.xcoord, pAC.xcoord), std::max(pAF.ycoord, pAC.ycoord), 0.0);
+	glVertex3f(drop.b->p1.xcoord, drop.b->p2.ycoord, 0.0); // std::min(pAC.xcoord, pAF.xcoord), std::max(pAF.ycoord, pAC.ycoord), 0.0);
 
 	glEnd();
 }
@@ -75,6 +92,8 @@ void display(void) {
 		Waterdrop drop = waterdrops[idx];
 		glColor3f(drop.getRed(), drop.getGreen(), drop.getBlue());
 		drawFreeShape(drop);
+		glColor3f(1.0, 0.0, 0.0);
+		drawBoundingBox(drop);
 		fflush(stdout);
 
 	}
