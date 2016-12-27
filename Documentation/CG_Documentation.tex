@@ -1,0 +1,126 @@
+\documentclass[a4paper,11pt]{report}
+
+%-------##-------##-------##------- SHORTCUTS -------##-------##-------##-------%
+
+%------- Korrigiert hier bitte eure Namen und sortiert euch nach Nachname korrekt ein
+\newcommand{\ajp}{Jannis Priesnitz}
+\newcommand{\amt}{Magarethe TBC}
+\newcommand{\Autoren}{\amt, \ajp}
+
+
+%----------------- PDF CONFIG ----------------- %
+\pdfinfo{    
+     /Title Computergraphics Dokumentation
+     /Subject   OpenGL Rain    
+     /Author  (\Autoren) 
+%     /Keywords   (TBC)      
+} 
+
+\title{***WORKINGTITLE***Simulation von Regen}
+\author{\Autoren}
+\date{30.10.2016}
+
+
+
+%----------------- PAKETE INKLUDIEREN ----------------- %
+
+\usepackage{geometry} % Packet für Seitenrandabständex und Einstellung für Seitenränder
+\usepackage[ngerman]{babel} % deutsche Silbentrennung
+
+\usepackage{booktabs} %entzerrt die Tabellenzeilen und bietet verschieden dicke Unterteilungslinien
+\usepackage{longtable} % Tabellen können sich nicht über mehrere Seiten 
+\usepackage{graphicx} % kann LaTeX Grafiken einbinden
+
+
+
+\usepackage[utf8]{inputenc} % Umlaute unter Mac werden automatisch gesetzt
+\usepackage[T1]{fontenc} % Zeichenencoding
+\usepackage{lmodern} % typographische Qualität 
+\frenchspacing % Schaltet den zusätzlichen Zwischenraum ab
+\usepackage{fix-cm}
+\usepackage{hyperref} % verwandelt alle Kapitelüberschriften, Verweise aufs Literaturverzeichnis und andere Querverweise in PDF-Hyperlinks
+\usepackage{color}
+\usepackage{url}
+
+%Ampere, Ohm, Volt etc...
+\usepackage[binary-units=true]{siunitx}
+
+\usepackage{bera}% optional: just to have a nice mono-spaced font for code
+\usepackage{xcolor}
+
+\usepackage{caption}%mehrere Bilder pro Figure
+\usepackage{subcaption}
+\usepackage{float} %damit die Bilder [H](Here) auf der richtige Stelle angezeigt werden
+
+\usepackage{setspace}
+
+%\usepackage[nottoc]{tocbibind}
+
+% für Listings
+\usepackage{listings}
+\include{Misc/codedefinitions}
+\newcommand{\inlcpp}[1]{\lstinline[style=customcpp]|#1|}
+% todos
+\usepackage{todonotes}
+\usepackage{textcomp}
+%Einheiten
+\usepackage{units}
+
+
+%----------------- FARBEN DEFINIEREN ----------------- %
+\definecolor{gray}{gray}{0.95} % Listingsbackground
+
+%----------------- LAYOUT SETZEN ----------------- %
+\geometry{left=2cm, right=2cm, top=2.5cm, bottom=2cm}
+\linespread {1.25}\selectfont %1.25 da er von Haus aus 1.2 ist und 1,25 * 1,2 = 1,5 isch
+
+%-------##-------##-------##------- ANFANG INHALT -------##-------##-------##-------%
+\begin{document}
+
+\pagenumbering{roman} % Seitennummer
+
+%----------------- DECKBLATT -----------------%
+ \include{Deckblatt/h_da_arbeit}
+ 
+%----------------- ABSTRACT -----------------%
+ \include{Abstract/Abstract}
+ 
+ 
+%----------------- VERZEICHNISSE -----------------%
+\tableofcontents % Inhaltverzeichnis
+
+% ----- Abbildungen ----- %
+%\addcontentsline{toc}{section}{Abbildungsverzeichnis} % falls in Inhalsverzeichnis
+\listoffigures
+
+% ----- Tabellen----- %
+% \addcontentsline{toc}{section}{Tabellenverzeichnis}  % falls in Inhalsverzeichnis
+% \fancyhead[L]{Abbildungsverzeichnis / Abkürzungsverzeichnis} %Kopfzeile links
+% \listoftables
+
+% ----- Listings ----- %
+% Listingverzeichnis soll im Inhaltsverzeichnis auftauchen
+% \addcontentsline{toc}{section}{Listingverzeichnis}
+% \fancyhead[L]{Abbildungs- / Tabellen- / Listingverzeichnis} %Kopfzeile links
+\renewcommand{\lstlistlistingname}{Listingverzeichnis}
+\lstlistoflistings
+
+\pagestyle{plain} % zurueck setzen von roemische seitenanzahl
+
+\pagenumbering{arabic}
+%----------------- KAPITEL : EINFÜHRUNG  ----------------- %            % GLOBALE DOKUMENTATION
+\include{Kapitel/Einfuehrung}                                           % 
+
+%----------------- KAPITEL : Anhang  ----------------- %              	%
+\chapter*{Anhang}
+	\label{cha:appendum}
+    \begin{itemize}
+    \item noch nichts
+    \end{itemize}
+
+%-------##-------##-------##------- QUELLEN -------##-------##-------##-------%
+\renewcommand{\bibname}{Externe Bibliotheken, technische Dokumente und Quellen}
+\bibliography{quellen}
+\bibliographystyle{alpha}
+
+\end{document}\grid
