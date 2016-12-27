@@ -5,8 +5,8 @@
  *      Author: jannis
  */
 
-#include "BoundingBox.h"
-#include "Globals.h"
+#include "../include/BoundingBox.h"
+#include "../include/Globals.h"
 #include <math.h>
 
 BoundingBox::BoundingBox() {

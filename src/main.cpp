@@ -4,10 +4,10 @@
 #include <vector>
 #include <sys/time.h>
 #include <math.h>
-#include "Globals.h"
-#include "Waterdrop.h"
-#include "Waterdrops.h"
-#include "main.h"
+#include "../include/Globals.h"
+#include "../include/Waterdrop.h"
+#include "../include/Waterdrops.h"
+#include "../include/main.h"
 #include <algorithm>  // min / max
 //#include <cmath> // <ctgmath>
 

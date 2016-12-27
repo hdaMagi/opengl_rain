@@ -7,11 +7,11 @@
 
 #include <math.h>
 
-#include "Waterdrop.h"
-#include "Globals.h"
-#include "Random.h"
-#include "Waterdrops.h"
-#include "BoundingBox.h"
+#include "../include/Waterdrop.h"
+#include "../include/Globals.h"
+#include "../include/Random.h"
+#include "../include/Waterdrops.h"
+#include "../include/BoundingBox.h"
 #include <stdio.h>      /* printf, scanf, puts, NULL */
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
