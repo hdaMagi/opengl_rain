@@ -51,10 +51,12 @@ bool Waterdrop::updatePosition(GlassPanel* gp) {
 	for (unsigned int i = 0; i < vecMassPoints.size(); i++) {
 		MassPoint mp = vecMassPoints.at(i);
 		GLfloat speed = gp->calcSpeed(mp.getVolumen(), (int)mp.getXpos(), (int)mp.getYpos());
-		speed = speed / 10.f;
-		mp.setxSpeed(speed + mp.getxSpeed());
-		mp.setySpeed(speed + mp.getySpeed());
-		ret &= mp.updatePosition();
+		speed = speed / 100.f;
+		/*mp.setxSpeed(speed + mp.getxSpeed());
+		mp.setySpeed(speed + mp.getySpeed());*/
+		vecMassPoints.at(i).setxSpeed(speed);
+		vecMassPoints.at(i).setySpeed(speed);
+		ret &= vecMassPoints.at(i).updatePosition();
 	}
 
 // lower point

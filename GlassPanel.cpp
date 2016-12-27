@@ -19,6 +19,9 @@ GlassPanel::GlassPanel() {
 	}
 
 	// Einen Kratzer in die Scheibe
+	for (int x = 1; x < 300; x++) {
+		this->setVale(x, 300);
+	}
 	this->setVale(300, 300);
 	this->setVale(301, 301);
 	this->setVale(302, 301);
@@ -30,6 +33,9 @@ GlassPanel::GlassPanel() {
 	this->setVale(308, 302);
 	this->setVale(309, 303);
 	this->setVale(310, 303);
+	for (int x = 311; x < WINDOW_WIDTH; x++) {
+		this->setVale(x, 304);
+	}
 
 
 
