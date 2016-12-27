@@ -2,11 +2,18 @@
 #define GLOBALS_H_
 
 
-const int WINDOW_WIDTH = 600;
-const int WINDOW_HEIGHT = 600;
+#define PI 3.14159265358979323846
 
-#include <GL/glut.h>	// OpenGL und GLUT
+#define WINDOW_WIDTH 600
+#define WINDOW_HEIGHT 600
 
-GLfloat randGlfloat(GLfloat max, GLfloat min);
+#define WINDOW_POSITION_X 100
+#define WINDOW_POSITION_Y 100
+
+
+	struct point2d {
+		GLfloat xcoord;
+		GLfloat ycoord;
+	};
 
 #endif /* GLOBALS_H_ */
