@@ -15,6 +15,7 @@
 #include "Globals.h"
 #include "GlassPanel.h"
 #include "MassPoint.h"
+#include "BoundingBox.h"
 
 class Waterdrop {
 private:
@@ -24,6 +25,8 @@ private:
 	std::vector<point2d> freeShape;
 	std::vector<MassPoint> vecMassPoints;
 
+
+
 public:
 	Waterdrop();
 	virtual ~Waterdrop();
@@ -32,11 +35,10 @@ public:
 	bool updatePosition(GlassPanel* gp);
 	void reset();
 	void addJoinedDrop(Waterdrop* drop);
-	bool detectCollision(Waterdrop *drop2);
+	GLboolean detectCollision(Waterdrop *drop2);
 	void joinDrops(Waterdrop* drop2);
-
-	GLfloat getMass();
-
+	bool Intersect(Waterdrop *drop2);
+	void AxisSeparatePolygons(std::vector<point2d> whatever, std::vector<point2d> A, std::vector<point2d> B);
 	GLfloat getBlue() const {
 		return blue;
 	}
@@ -45,6 +47,23 @@ public:
 		this->blue = blue;
 	}
 
+	BoundingBox * b;
+//	GLfloat getDeceleration() const {
+//		return Deceleration;
+//	}
+//
+//	void setDeceleration(GLfloat deceleration) {
+//		Deceleration = deceleration;
+//	}
+//
+//	int getDirection() const {
+//		return direction;
+//	}
+//
+//	void setDirection(int direction) {
+//		this->direction = direction;
+//	}
+//
 	GLfloat getGreen() const {
 		return green;
 	}

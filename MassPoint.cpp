@@ -27,8 +27,7 @@ GLfloat getRadiusFromVol(GLfloat mass) {
 
 MassPoint::MassPoint() {
 	this->isActive = true;
-	this->volumen = Random::randGlfloat(4.2f, 0.5f);
-	this->radius = getRadiusFromVol(this->volumen); //Random::randGlfloat(7.0f, 5.0f);
+	this->radius = Random::randGlfloat(15.0f, 5.0f);
 	this->xpos = Random::randGlfloat(WINDOW_WIDTH - this->radius, this->radius);
 	this->ypos = Random::randGlfloat(WINDOW_HEIGHT - this->radius,
 			this->radius);
@@ -37,7 +36,7 @@ MassPoint::MassPoint() {
 	this->red = Random::randGlfloat(1.0f, 0.0f);
 	this->green = Random::randGlfloat(1.0f, 0.0f);
 	this->blue = 1.0f;
-	this->Deceleration = Random::randGlfloat(0.6f, 0.0f);
+	this->Deceleration = Random::randGlfloat(0.05f, 0.05f);
 	this->direction = 0; // gerade runter fließen
 }
 
@@ -52,7 +51,7 @@ void MassPoint::reset() {
 	this->red = Random::randGlfloat(1.0f, 0.0f);
 	this->green = Random::randGlfloat(1.0f, 0.0f);
 	this->blue = 1.0f;
-	this->Deceleration = Random::randGlfloat(0.6f, 0.0f);
+	this->Deceleration = Random::randGlfloat(0.05f, 0.05f);
 	this->direction = 0;
 //	for (std::vector<Waterdrop*>::iterator it =
 //			this->inactivatedDueToJoined.begin();
