@@ -40,7 +40,7 @@ Waterdrop::Waterdrop() {
 	b = new BoundingBox(vecMassPoints);
 }
 
-//void Waterdrop::reset() {
+void Waterdrop::reset() {
 //	this->isActive = true;
 //	this->radius = Random::randGlfloat(7.0f, 5.0f);
 //	this->xpos = Random::randGlfloat(WINDOW_WIDTH - this->radius, this->radius);
@@ -60,7 +60,7 @@ Waterdrop::Waterdrop() {
 //	}
 //	this->inactivatedDueToJoined.clear();
 //	freeShape.clear();
-//}
+}
 //
 ///**
 // * for free shape joining will be much more complicated so we're leaving the method here
@@ -72,6 +72,9 @@ void Waterdrop::joinDrops(Waterdrop* drop2) {
 	drop2->setIsActive(false);
 //	drop2->setXpos(-200); // hiding "looser" joined drops
 	this->inactivatedDueToJoined.push_back(drop2);
+
+	this->vecMassPoints.at(0).addToMass(drop2->at(0).getMass());
+	this->vecMassPoints.at(1).addToMass(drop2->at(1).getMass());
 }
 
 GLboolean Waterdrop::detectCollision(Waterdrop *drop2) {
@@ -112,14 +115,14 @@ void Waterdrop::AxisSeparatePolygons(std::vector<point2d> whatever,
  * return: 1 if update was succsessful
  * 		   0 if not (e.g. running out of canvas)
  */
-bool Waterdrop::updatePosition() {
+bool Waterdrop::updatePosition(physic p) {
 	bool ret = 1;
 
 	freeShape.clear();
 	point2d x;
 
 	for (unsigned int i = 0; i < vecMassPoints.size(); i++) {
-		ret &= vecMassPoints.at(i).updatePosition();
+		ret &= vecMassPoints.at(i).updatePosition(p);
 	}
 
 	b->update(vecMassPoints);
@@ -241,6 +244,12 @@ bool Waterdrop::updatePosition() {
 //			iter++;
 //		}
 //}
+	/*if (ret) {
+		for (int idx = 0; idx < this->inactivatedDueToJoined.size(); idx++) {
+			this->inactivatedDueToJoined.at(idx)->setIsActive(true);
+		}
+		this->inactivatedDueToJoined.clear();
+	}*/
 	return ret;
 }
 //
@@ -283,3 +292,11 @@ void Waterdrop::addJoinedDrop(Waterdrop* drop) {
 Waterdrop::~Waterdrop() {
 }
 
+GLfloat Waterdrop::getDropMass() {
+	GLfloat mass = 0.f;
+	int count = this->vecMassPoints.size();
+	for (int idx = 0; idx < count; idx++) {
+		mass += this->vecMassPoints.at(idx).getMass();
+	}
+	return mass;
+}

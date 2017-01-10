@@ -16,4 +16,9 @@
 		GLfloat ycoord;
 	};
 
+	struct physic {
+		GLfloat speed;
+		GLfloat radiant;
+	};
+
 #endif /* GLOBALS_H_ */

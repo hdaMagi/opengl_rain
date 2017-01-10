@@ -12,7 +12,7 @@
 
 Waterdrops::Waterdrops() {
 	// TODO Auto-generated constructor stub
-	for (int idx = 0; idx < 2; idx++) {
+	for (int idx = 0; idx < 10; idx++) {
 		Waterdrop drop;
 		waterdrops.push_back(drop);
 	}
@@ -28,7 +28,8 @@ void Waterdrops::update(){
 			it != waterdrops.end(); ++it) {
 		Waterdrop & drop = *it;
 		if (drop.isIsActive() == true) {
-			drop.updatePosition();
+			physic p = this->glasspanel.moveWaterdrop(drop);
+			drop.updatePosition(p);
 			/* collision dectection could be in own method*/
 			for (std::vector<Waterdrop>::iterator it2 = waterdrops.begin();
 					it2 != waterdrops.end(); ++it2) {
@@ -48,6 +49,3 @@ void Waterdrops::update(){
 		}
 	}
 }
-
-
-

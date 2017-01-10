@@ -16,41 +16,22 @@
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 
-MassPoint::MassPoint() {
-	this->isActive = true;
-	this->radius = Random::randGlfloat(15.0f, 5.0f);
-	this->xpos = Random::randGlfloat(WINDOW_WIDTH - this->radius, this->radius);
-	this->ypos = Random::randGlfloat(WINDOW_HEIGHT - this->radius,
-			this->radius);
-	this->xSpeed = Random::randGlfloat(0.1, -0.1);
-	this->ySpeed = 0.1f;
-	this->red = Random::randGlfloat(1.0f, 0.0f);
-	this->green = Random::randGlfloat(1.0f, 0.0f);
-	this->blue = 1.0f;
-	this->Deceleration = Random::randGlfloat(0.05f, 0.05f);
-	this->direction = 0; // gerade runter fließen
-}
-
 void MassPoint::reset() {
 	this->isActive = true;
-	this->radius = Random::randGlfloat(7.0f, 5.0f);
+	this->setMass(Random::randGlfloat(3.3f, 1.0f));
 	this->xpos = Random::randGlfloat(WINDOW_WIDTH - this->radius, this->radius);
 	this->ypos = WINDOW_HEIGHT;
-	this->xSpeed = Random::randGlfloat(0.1, -0.1);
-	this->ySpeed = 0.1f;
+	this->speed = 0.f;
 	this->red = Random::randGlfloat(1.0f, 0.0f);
 	this->green = Random::randGlfloat(1.0f, 0.0f);
 	this->blue = 1.0f;
-	this->Deceleration = Random::randGlfloat(0.05f, 0.05f);
-	this->direction = 0;
-//	for (std::vector<Waterdrop*>::iterator it =
-//			this->inactivatedDueToJoined.begin();
-//			it != this->inactivatedDueToJoined.end(); ++it) {
-//		Waterdrop & drop = **it;
-//		drop.reset();
-//	}
-//	this->inactivatedDueToJoined.clear();
-//	freeShape.clear();
+	this->direction = 4.7f;
+}
+
+MassPoint::MassPoint() {
+	this->reset();
+	this->ypos = Random::randGlfloat(WINDOW_HEIGHT - this->radius,
+			this->radius);
 }
 
 /**
@@ -58,38 +39,22 @@ void MassPoint::reset() {
  * return: 1 if update was succsessful
  * 		   0 if not (e.g. running out of canvas)
  */
-bool MassPoint::updatePosition() {
+bool MassPoint::updatePosition(physic p) {
 
-	xpos = xpos - (xSpeed + Deceleration) * Direction();
+	//xpos = xpos - (xSpeed + Deceleration);
+	xpos += (p.speed * cos(p.radiant));
 	if (xpos + radius < 0.0f || (xpos - radius > WINDOW_WIDTH)) {
 		reset();
 		return 0;
 	}
 
-	ypos = ypos - (ySpeed + Deceleration);
+	//ypos = ypos - (ySpeed + Deceleration);
+	ypos -= p.speed;
 	if (ypos + radius < 0.0f) {
 		reset();
 		return 0;
 	}
 
-//	freeShape.clear();
-//
-//	point2d x;
-//	int iter = 0;
-//	for (GLfloat i = 0; i < PI; i = i + 0.1) {
-//		if (iter % 2 == 0) {
-//			x.xcoord = xpos + sin(i) * 10;
-//		} else {
-//			x.xcoord = xpos - sin(i) * 10;
-//		}
-//		if(i < PI / 2){
-//		x.ycoord = ypos - i * (1 - iter);
-//		}else{
-//			x.ycoord = ypos + i * iter;
-//		}
-//		freeShape.push_back(x);
-//		iter++;
-//	}
 	return 1;
 }
 
@@ -97,7 +62,7 @@ bool MassPoint::updatePosition() {
  * @todo: rand --> random class
  */
 int MassPoint::Direction(void) {
-	int temp = 0;
+	/*int temp = 0;
 	const int min = 1;
 	const int max = 1;
 	switch (this->direction) {
@@ -121,8 +86,33 @@ int MassPoint::Direction(void) {
 		direction -= 1;
 	} else if (temp > (100 - 1 - max)) {
 		direction += 1;
+	}*/
+	if (direction < 4.7) {
+		return -1;
+	} else if (direction > 4.7) {
+		return 1;
 	}
-	return direction;
+	return 0;
+}
+
+GLfloat MassPoint::addToMass(int mass) {
+	this->mass += mass;
+	calcRadiusFromMass();
+	return this->mass;
+}
+
+void MassPoint::setMass(GLfloat mass) {
+	this->mass = mass;
+	calcRadiusFromMass();
+}
+
+void MassPoint::calcRadiusFromMass() {
+	this->radius = this->mass;
+	this->radius *= 1.5; // two third
+	this->radius /= PI;
+	this->radius = powf(this->radius, (1.f/3.f));
+
+	this->radius *= 6; // Damit es auf dem Bildschirm besser sichtbar ist
 }
 
 MassPoint::~MassPoint() {

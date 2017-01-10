@@ -19,7 +19,7 @@ public:
 	void reset();
 	int Direction(void);
 
-	bool updatePosition();
+	bool updatePosition(physic p);
 	virtual ~MassPoint();
 
 	GLfloat getBlue() const {
@@ -30,19 +30,11 @@ public:
 		this->blue = blue;
 	}
 
-	GLfloat getDeceleration() const {
-		return Deceleration;
-	}
-
-	void setDeceleration(GLfloat deceleration) {
-		Deceleration = deceleration;
-	}
-
-	int getDirection() const {
+	GLfloat getDirection() const {
 		return direction;
 	}
 
-	void setDirection(int direction) {
+	void setDirection(GLfloat direction) {
 		this->direction = direction;
 	}
 
@@ -67,10 +59,6 @@ public:
 		return radius;
 	}
 
-	void setRadius(GLfloat radius) {
-		this->radius = radius;
-	}
-
 	GLfloat getRed() const {
 		return red;
 	}
@@ -87,48 +75,48 @@ public:
 		this->vecMassPoints = vecMassPoints;
 	}
 
-	GLfloat getXpos() const {
+	int getXpos() const {
 		return xpos;
 	}
 
-	void setXpos(GLfloat xpos) {
+	void setXpos(int xpos) {
 		this->xpos = xpos;
 	}
 
-	GLfloat getxSpeed() const {
-		return xSpeed;
-	}
-
-	void setxSpeed(GLfloat speed) {
-		xSpeed = speed;
-	}
-
-	GLfloat getYpos() const {
+	int getYpos() const {
 		return ypos;
 	}
 
-	void setYpos(GLfloat ypos) {
+	void setYpos(int ypos) {
 		this->ypos = ypos;
 	}
 
-	GLfloat getySpeed() const {
-		return ySpeed;
+	GLfloat getSpeed() const {
+		return speed;
 	}
 
-	void setySpeed(GLfloat speed) {
-		ySpeed = speed;
+	void setSpeed(GLfloat speed) {
+		this->speed = speed;
 	}
+
+	GLfloat getMass() {
+		return this->mass;
+	}
+
+	void setMass(GLfloat mass);
+	GLfloat addToMass(int mass);
 
 private:
 	bool isActive;
 
-	int direction;
-	GLfloat xpos, ypos;			// Positions
-	GLfloat xSpeed, ySpeed;			// Moves
+	GLfloat direction;				// RAD: (3.5 - 4.6) => left; 4.7 => ahead; (4.8 - 5.9) => right
+	int xpos, ypos;				// Positions
+	GLfloat speed;				// Moves
 	GLfloat radius;				// Radius in Pixel
+	GLfloat mass;				// Masse/Volumen
 	GLfloat red, green, blue;	// Color
-	GLfloat Deceleration;		// How fast it decelerates downwards
 	std::vector<MassPoint> vecMassPoints;
+	void calcRadiusFromMass();
 };
 
 #endif /* MASSPOINT_H_ */

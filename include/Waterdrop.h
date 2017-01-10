@@ -18,25 +18,17 @@
 class Waterdrop {
 private:
 	bool isActive;
-//
-//	int direction;
-//	GLfloat xpos, ypos;			// Positions
-//	GLfloat xSpeed, ySpeed;			// Moves
-//	GLfloat radius;				// Radius in Pixel
+
 	GLfloat red, green, blue;	// Color
-//	GLfloat Deceleration;		// How fast it decelerates downwards
 	std::vector<Waterdrop*>  inactivatedDueToJoined;
 	std::vector<point2d> freeShape;
 	std::vector<MassPoint> vecMassPoints;
-
-
-
 public:
 	Waterdrop();
 	virtual ~Waterdrop();
 
 	int Direction();			// The angle of rotation
-	bool updatePosition();
+	bool updatePosition(physic p);
 	void reset();
 	void addJoinedDrop(Waterdrop* drop);
 	GLboolean detectCollision(Waterdrop *drop2);
@@ -44,7 +36,7 @@ public:
 
 	bool Intersect(Waterdrop *drop2);
 	void AxisSeparatePolygons(std::vector<point2d> whatever, std::vector<point2d> A, std::vector<point2d> B);
-
+	GLfloat getDropMass();
 
 	GLfloat getBlue() const {
 		return blue;
@@ -55,22 +47,7 @@ public:
 	}
 
 	BoundingBox * b;
-//	GLfloat getDeceleration() const {
-//		return Deceleration;
-//	}
-//
-//	void setDeceleration(GLfloat deceleration) {
-//		Deceleration = deceleration;
-//	}
-//
-//	int getDirection() const {
-//		return direction;
-//	}
-//
-//	void setDirection(int direction) {
-//		this->direction = direction;
-//	}
-//
+
 	GLfloat getGreen() const {
 		return green;
 	}
@@ -78,15 +55,7 @@ public:
 	void setGreen(GLfloat green) {
 		this->green = green;
 	}
-//
-//	GLfloat getRadius() const {
-//		return radius;
-//	}
-//
-//	void setRadius(GLfloat radius) {
-//		this->radius = radius;
-//	}
-//
+
 	GLfloat getRed() const {
 		return red;
 	}
@@ -94,38 +63,6 @@ public:
 	void setRed(GLfloat red) {
 		this->red = red;
 	}
-//
-//	GLfloat getXSpeed() const {
-//		return xSpeed;
-//	}
-//
-//	void setXSpeed(GLfloat xmov) {
-//		this->xSpeed = xSpeed;
-//	}
-//
-//	GLfloat getXpos() const {
-//		return xpos;
-//	}
-//
-//	void setXpos(GLfloat xpos) {
-//		this->xpos = xpos;
-//	}
-//
-//	GLfloat getYSpeed() const {
-//		return ySpeed;
-//	}
-//
-//	void setYSpeed(GLfloat ymov) {
-//		this->ySpeed = ySpeed;
-//	}
-//
-//	GLfloat getYpos() const {
-//		return ypos;
-//	}
-//
-//	void setYpos(GLfloat ypos) {
-//		this->ypos = ypos;
-//	}
 
 	bool isIsActive() const {
 		return isActive;
@@ -141,6 +78,14 @@ public:
 
 	void setFreeShape(const std::vector<point2d>& freeShape) {
 		this->freeShape = freeShape;
+	}
+
+	int getCountMass(void) {
+		return this->vecMassPoints.size();
+	}
+
+	MassPoint at(int idx) {
+		return this->vecMassPoints.at(idx);
 	}
 };
 
