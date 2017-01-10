@@ -23,7 +23,7 @@ private:
 //	GLfloat xpos, ypos;			// Positions
 //	GLfloat xSpeed, ySpeed;			// Moves
 //	GLfloat radius;				// Radius in Pixel
-	GLfloat red, green, blue;	// Color
+	GLfloat red, green, blue, transparency;	// Color
 //	GLfloat Deceleration;		// How fast it decelerates downwards
 	std::vector<Waterdrop*>  inactivatedDueToJoined;
 	std::vector<point2d> freeShape;
@@ -141,6 +141,14 @@ public:
 
 	void setFreeShape(const std::vector<point2d>& freeShape) {
 		this->freeShape = freeShape;
+	}
+
+	GLfloat getTransparency() const {
+		return transparency;
+	}
+
+	void setTransparency(GLfloat transparency) {
+		this->transparency = transparency;
 	}
 };
 

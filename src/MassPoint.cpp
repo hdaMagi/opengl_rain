@@ -22,6 +22,7 @@ MassPoint::MassPoint() {
 	this->xpos = Random::randGlfloat(WINDOW_WIDTH - this->radius, this->radius);
 	this->ypos = Random::randGlfloat(WINDOW_HEIGHT - this->radius,
 			this->radius);
+
 	this->xSpeed = Random::randGlfloat(0.1, -0.1);
 	this->ySpeed = 0.1f;
 	this->red = Random::randGlfloat(1.0f, 0.0f);
@@ -61,16 +62,16 @@ void MassPoint::reset() {
 bool MassPoint::updatePosition() {
 
 	xpos = xpos - (xSpeed + Deceleration) * Direction();
-	if (xpos + radius < 0.0f || (xpos - radius > WINDOW_WIDTH)) {
-		reset();
-		return 0;
-	}
+//	if (xpos + radius < 0.0f || (xpos - radius > WINDOW_WIDTH)) {
+//		reset();
+//		return 0;
+//	}
 
 	ypos = ypos - (ySpeed + Deceleration);
-	if (ypos + radius < 0.0f) {
-		reset();
-		return 0;
-	}
+//	if (ypos + radius < -100.0f) {
+//		reset();
+//		return 0;
+//	}
 
 //	freeShape.clear();
 //
