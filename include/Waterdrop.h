@@ -18,8 +18,7 @@
 class Waterdrop {
 private:
 	bool isActive;
-
-	GLfloat red, green, blue;	// Color
+	GLfloat red, green, blue, transparency;	// Color
 	std::vector<Waterdrop*>  inactivatedDueToJoined;
 	std::vector<point2d> freeShape;
 	std::vector<MassPoint> vecMassPoints;
@@ -86,6 +85,14 @@ public:
 
 	MassPoint at(int idx) {
 		return this->vecMassPoints.at(idx);
+	}
+
+	GLfloat getTransparency() const {
+		return transparency;
+	}
+
+	void setTransparency(GLfloat transparency) {
+		this->transparency = transparency;
 	}
 };
 

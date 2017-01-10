@@ -43,18 +43,9 @@ bool MassPoint::updatePosition(physic p) {
 
 	//xpos = xpos - (xSpeed + Deceleration);
 	xpos += (p.speed * cos(p.radiant));
-	if (xpos + radius < 0.0f || (xpos - radius > WINDOW_WIDTH)) {
-		reset();
-		return 0;
-	}
 
 	//ypos = ypos - (ySpeed + Deceleration);
 	ypos -= p.speed;
-	if (ypos + radius < 0.0f) {
-		reset();
-		return 0;
-	}
-
 	return 1;
 }
 
