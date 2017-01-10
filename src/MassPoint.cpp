@@ -45,7 +45,7 @@ bool MassPoint::updatePosition(physic p) {
 	xpos += (p.speed * cos(p.radiant));
 
 	//ypos = ypos - (ySpeed + Deceleration);
-	ypos -= p.speed;
+	ypos += (p.speed * sin(p.radiant));
 	return 1;
 }
 

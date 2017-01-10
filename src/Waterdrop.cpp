@@ -222,8 +222,8 @@ Waterdrop::~Waterdrop() {
 
 GLfloat Waterdrop::getDropMass() {
 	GLfloat mass = 0.f;
-	int count = vecMassPoints.size();
-	for (int idx = 0; idx < count; idx++) {
+	//int count = vecMassPoints.size();
+	for (int idx = 0; idx < 2; idx++) {
 		mass += vecMassPoints.at(idx).getMass();
 	}
 	return mass;
