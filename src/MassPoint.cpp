@@ -42,10 +42,21 @@ MassPoint::MassPoint() {
 bool MassPoint::updatePosition(physic p) {
 
 	//xpos = xpos - (xSpeed + Deceleration);
-	xpos += (p.speed * cos(p.radiant));
+	GLfloat step = 0;
+	if (p.radiant > 4.7f) {
+		step = (p.speed * -cos(p.radiant));
+	} else {
+		step = (p.speed * cos(p.radiant));
+	}
+
+	xpos += step;
 
 	//ypos = ypos - (ySpeed + Deceleration);
-	ypos += (p.speed * sin(p.radiant));
+	step = (p.speed * -sin(p.radiant));
+	if (step >= 0) {
+		step = -1;
+	}
+	ypos += step;
 	return 1;
 }
 

@@ -12,6 +12,7 @@
 
 Waterdrops::Waterdrops() {
 	// TODO Auto-generated constructor stub
+	glasspanel = GlassPanel(3);
 	for (int idx = 0; idx < 25; idx++) {
 		Waterdrop drop;
 		waterdrops.push_back(drop);

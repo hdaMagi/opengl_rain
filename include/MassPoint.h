@@ -75,19 +75,19 @@ public:
 		this->vecMassPoints = vecMassPoints;
 	}
 
-	int getXpos() const {
+	GLfloat getXpos() const {
 		return xpos;
 	}
 
-	void setXpos(int xpos) {
+	void setXpos(GLfloat xpos) {
 		this->xpos = xpos;
 	}
 
-	int getYpos() const {
+	GLfloat getYpos() const {
 		return ypos;
 	}
 
-	void setYpos(int ypos) {
+	void setYpos(GLfloat ypos) {
 		this->ypos = ypos;
 	}
 
@@ -110,7 +110,7 @@ private:
 	bool isActive;
 
 	GLfloat direction;				// RAD: (3.5 - 4.6) => left; 4.7 => ahead; (4.8 - 5.9) => right
-	int xpos, ypos;				// Positions
+	GLfloat xpos, ypos;				// Positions
 	GLfloat speed;				// Moves
 	GLfloat radius;				// Radius in Pixel
 	GLfloat mass;				// Masse/Volumen

@@ -20,9 +20,10 @@ class GlassPanel {
 private:
 	GLfloat Panel[WINDOW_WIDTH][WINDOW_HEIGHT];
 	bool isInPanel(int x, int y);
+	bool isBetween(int from, int to, char value);
+	void initPanel(unsigned char* mp, int len);
 public:
 	GlassPanel(); // perfekte Scheibe
-	GlassPanel(std::string path); // lade eine Hoehenmappe
 	GlassPanel(int mapIdx); // 1 => map01; 2 => map02; 3 => map03
 	virtual ~GlassPanel();
 	GLfloat getFriction(int x, int y);
